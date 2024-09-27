@@ -1,4 +1,4 @@
-package practicum.yandex;
+package main.java.practicum.yandex;
 
 public class Task {
     private String name;

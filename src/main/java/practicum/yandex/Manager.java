@@ -1,4 +1,4 @@
-package practicum.yandex;
+package main.java.practicum.yandex;
 
 import java.util.ArrayList;
 import java.util.HashMap;
