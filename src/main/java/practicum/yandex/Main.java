@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class Main {
-    private final ArrayList<String> TEST_TASKS_NAMES = new ArrayList<>(); //{"Купить хлеб", "Прогуляться", ""}
     public static void main(String[] args) {
         Manager manager = new Manager();
 
