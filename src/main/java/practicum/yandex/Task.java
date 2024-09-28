@@ -11,11 +11,11 @@ public class Task {
     }
 
     public void setId(int id) {
-        if(id == 0 || this.id != 0) {
-           return;
+        if (id == 0 || this.id != 0) {
+            return;
         }
 
-        this.id =  id;
+        this.id = id;
     }
 
     public String getName() {
@@ -43,7 +43,7 @@ public class Task {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("id: %d \n name: %s \n description: %s \n status: %s \n", id, name != null ? name : "", desription != null ? desription : "", status != null ? status : "");
     }
 }

@@ -23,7 +23,7 @@ public class Main {
         manager.addTask(task3);
 
         System.out.println("Создание тасков");
-        for (Map.Entry<Integer, Task> managetTask : manager.getTasks().entrySet()){
+        for (Map.Entry<Integer, Task> managetTask : manager.getTasks().entrySet()) {
             System.out.print(managetTask);
         }
 
@@ -134,7 +134,7 @@ public class Main {
 
         System.out.println("Получение подзадач эпика");
 
-        for(Subtask subtask : manager.getEpicSubtasks(4)){
+        for (Subtask subtask : manager.getEpicSubtasks(4)) {
             System.out.println(subtask);
         }
 
@@ -188,24 +188,24 @@ public class Main {
         System.out.println("============================================================== \n");
     }
 
-    private static void printTasks(Manager manager){
-        for (Map.Entry<Integer, Task> managetTask : manager.getTasks().entrySet()){
+    private static void printTasks(Manager manager) {
+        for (Map.Entry<Integer, Task> managetTask : manager.getTasks().entrySet()) {
             System.out.print(managetTask);
         }
     }
 
-    private static void printSubtasks(Manager manager){
-        for (Map.Entry<Integer, Subtask> managetSubtask : manager.getSubtasks().entrySet()){
+    private static void printSubtasks(Manager manager) {
+        for (Map.Entry<Integer, Subtask> managetSubtask : manager.getSubtasks().entrySet()) {
             System.out.print(managetSubtask);
         }
     }
 
-    private static void printEpicsWithSubtasks(Manager manager){
-        for (Map.Entry<Integer, Epic> managerEpic : manager.getEpics().entrySet()){
+    private static void printEpicsWithSubtasks(Manager manager) {
+        for (Map.Entry<Integer, Epic> managerEpic : manager.getEpics().entrySet()) {
             Epic epic = managerEpic.getValue();
             System.out.print(epic);
 
-            for(Subtask subtask : manager.getEpicSubtasks(epic.getId())) {
+            for (Subtask subtask : manager.getEpicSubtasks(epic.getId())) {
                 System.out.print(subtask);
             }
 

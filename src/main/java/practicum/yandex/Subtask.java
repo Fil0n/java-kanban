@@ -1,6 +1,6 @@
 package main.java.practicum.yandex;
 
-public class Subtask extends Task{
+public class Subtask extends Task {
     private int mainTaskId;
 
     public void setMainTaskId(int mainTaskId) {
