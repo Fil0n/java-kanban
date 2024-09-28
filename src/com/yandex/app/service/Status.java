@@ -1,4 +1,4 @@
-package main.java.practicum.yandex;
+package com.yandex.app.service;
 
 public enum Status {
     NEW,

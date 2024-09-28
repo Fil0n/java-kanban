@@ -1,4 +1,7 @@
-package main.java.practicum.yandex;
+package com.yandex.app;
+
+import com.yandex.app.service.*;
+import com.yandex.app.model.*;
 
 public class Main {
     public static void main(String[] args) {

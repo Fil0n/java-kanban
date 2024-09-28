@@ -1,4 +1,4 @@
-package main.java.practicum.yandex;
+package com.yandex.app.model;
 
 public class Subtask extends Task {
     private final int epicId;
