@@ -2,19 +2,26 @@ package main.java.practicum.yandex;
 
 public class Task {
     private String name;
-    private String desription;
+    private String description;
     private int id;
     private Status status;
+
+    public Task(String name) {
+        this.name = name;
+        this.status = Status.NEW;
+    }
+
+    public Task(String name, String description) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+    }
 
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
-        if (id == 0 || this.id != 0) {
-            return;
-        }
-
         this.id = id;
     }
 
@@ -27,11 +34,11 @@ public class Task {
     }
 
     public String getDesription() {
-        return desription;
+        return description;
     }
 
-    public void setDesription(String desription) {
-        this.desription = desription;
+    public void setDesription(String description) {
+        this.description = description;
     }
 
     public Status getStatus() {
@@ -44,6 +51,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("id: %d \n name: %s \n description: %s \n status: %s \n", id, name != null ? name : "", desription != null ? desription : "", status != null ? status : "");
+        return String.format("id: %d \n name: %s \n description: %s \n status: %s \n", id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
     }
 }

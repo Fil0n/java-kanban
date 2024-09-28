@@ -3,7 +3,15 @@ package main.java.practicum.yandex;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subtaskIds = new ArrayList<>();
+    private final ArrayList<Integer> subtaskIds = new ArrayList<>();
+
+    public Epic(String name) {
+        super(name);
+    }
+
+    public Epic(String name, String description) {
+        super(name, description);
+    }
 
     public ArrayList<Integer> getSubtasksIds() {
         return subtaskIds;
@@ -13,28 +21,16 @@ public class Epic extends Task {
         subtaskIds.add(subtaskId);
     }
 
-    public void removeSubtaskId(int subtaskId) {
-        for (int i = 0; i < subtaskIds.size(); i++) {
-            if (subtaskIds.get(i) == subtaskId) {
-                subtaskIds.remove(i);
-                return;
-            }
-        }
+    public void removeSubtaskId(Integer subtaskId) {
+        subtaskIds.remove(subtaskId);
     }
 
     public void cleanSubtasksIds() {
-        subtaskIds = new ArrayList<>();
+        subtaskIds.clear();
     }
 
     @Override
     public String toString() {
-        String s = super.toString();
-        s += "Subtasks: ";
-        for (int subtaskId : subtaskIds) {
-            s += subtaskId + ", ";
-        }
-
-        s += "\n";
-        return s;
+        return super.toString() + "Subtasks: " + subtaskIds + "\n";
     }
 }
