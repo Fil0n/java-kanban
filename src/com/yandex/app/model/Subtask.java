@@ -3,9 +3,9 @@ package com.yandex.app.model;
 public class Subtask extends Task {
     private final int epicId;
 
-    public Subtask(String name, int mainTaskId) {
+    public Subtask(String name, int epicId) {
         super(name);
-        this.epicId = mainTaskId;
+        this.epicId = epicId;
     }
 
     public Subtask(String name, String description, int epicId) {
@@ -13,7 +13,7 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
-    public int getMainTaskId() {
+    public int getEpicId() {
         return epicId;
     }
 }

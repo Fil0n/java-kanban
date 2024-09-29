@@ -130,7 +130,7 @@ public class Main {
 
         System.out.println("Удаление эпика по id");
         manager.removeEpicById(4);
-        printEpicsWithSubtasks(manager);
+        printEpicsWithSubtasksFromManagerMap(manager);
         System.out.println("============================================================== \n");
 
         System.out.println("Обновление эпика ");
@@ -174,6 +174,16 @@ public class Main {
                 System.out.print(subtask);
             }
 
+        }
+    }
+
+    private static void printEpicsWithSubtasksFromManagerMap(Manager manager) {
+        for (Epic epic : manager.getEpics()) {
+            System.out.print(epic);
+        }
+
+        for (Subtask subtask : manager.getSubtasks()) {
+            System.out.print(subtask);
         }
     }
 

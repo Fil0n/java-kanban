@@ -24,7 +24,7 @@ public class Manager {
     }
 
     public void addSubtask(Subtask subtask) {
-        int mainTaskId = subtask.getMainTaskId();
+        int mainTaskId = subtask.getEpicId();
 
         final Epic epic = epics.get(mainTaskId);
         if (epic == null) {
@@ -103,7 +103,7 @@ public class Manager {
         }
 
         epic.setName(newEpic.getName());
-        epic.setDesription(newEpic.getDesription());
+        epic.setDescription(newEpic.getDescription());
     }
 
     public void updateSubtask(Subtask newSubtask) {
@@ -112,7 +112,7 @@ public class Manager {
             return;
         }
         subtasks.replace(id, newSubtask);
-        updateEpicStatus(newSubtask.getMainTaskId());
+        updateEpicStatus(newSubtask.getEpicId());
     }
 
     //Удаление по идентификатору
@@ -121,27 +121,22 @@ public class Manager {
     }
 
     public void removeEpicById(int id) {
-        Epic epic = epics.get(id);
-
-        ArrayList<Integer> subtaskIds = epic.getSubtasksIds();
-
+        final Epic epic = epics.remove(id);
+        final ArrayList<Integer> subtaskIds = epic.getSubtasksIds();
         for (int subtaskId : subtaskIds) {
             subtasks.remove(subtaskId);
         }
-
-        epics.remove(id);
     }
 
     public void removeSubtaskById(int id) {
-        final int epicMainTask = subtasks.get(id).getMainTaskId();
-        subtasks.remove(id);
-        epics.get(epicMainTask).removeSubtaskId(id);
-        updateEpicStatus(epicMainTask);
+        final int epicId = subtasks.remove(id).getEpicId();
+        epics.get(epicId).removeSubtaskId(id);
+        updateEpicStatus(epicId);
     }
 
     //Получение списка всех подзадач определённого эпика
     public ArrayList<Subtask> getEpicSubtasks(int id) {
-        Epic epic = getEpicById(id);
+        final Epic epic = epics.get(id);
         ArrayList<Subtask> epicSubtasks = new ArrayList<>();
 
         for (int subtaskId : epic.getSubtasksIds()) {
@@ -150,8 +145,6 @@ public class Manager {
 
         return epicSubtasks;
     }
-//sdds
-
 
     //Обновление статуса эпика
     private void updateEpicStatus(int epicId) {
@@ -181,7 +174,7 @@ public class Manager {
 
         if (hasNew && !hasDone) {
             epic.setStatus(Status.NEW);
-        } else if (hasDone && !hasNew) {
+        } else if (!hasNew) {
             epic.setStatus(Status.DONE);
         } else {
             epic.setStatus(Status.IN_PROGRESS);
