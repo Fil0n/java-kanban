@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 public interface TaskManager {
     //Создание тасков
-    void addTask(Task task);
-    void addEpic(Epic epic);
-    void addSubtask(Subtask subtask);
+    Integer addTask(Task task);
+    Integer addEpic(Epic epic);
+    Integer addSubtask(Subtask subtask);
 
     //Получение списка всех задач.
     ArrayList<Task> getTasks();

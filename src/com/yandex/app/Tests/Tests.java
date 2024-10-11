@@ -14,6 +14,7 @@ class Tests {
     void addNewTask() {
         Task task1 = new Task("Таск 1", "Описание 1");
 
-        taskManager.addTask(Task);
+        int taskId = taskManager.addTask(task1);
+        final Task savedTask = taskManager.getTaskById(taskId);
     }
 }

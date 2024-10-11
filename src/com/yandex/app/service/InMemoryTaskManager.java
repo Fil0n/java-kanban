@@ -15,32 +15,37 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Создание тасков
     @Override
-    public void addTask(Task task) {
-        task.setId(getNextId());
+    public Integer addTask(Task task) {
+        int id = getNextId();
+        task.setId(id);
         tasks.put(task.getId(), task);
+        return id;
     }
 
     @Override
-    public void addEpic(Epic epic) {
-        epic.setId(getNextId());
+    public Integer addEpic(Epic epic) {
+        int id = getNextId();
+        epic.setId(id);
         epics.put(epic.getId(), epic);
+        return id;
     }
 
     @Override
-    public void addSubtask(Subtask subtask) {
+    public Integer addSubtask(Subtask subtask) {
         int mainTaskId = subtask.getEpicId();
 
         final Epic epic = epics.get(mainTaskId);
         if (epic == null) {
-            return;
+            return null;
         }
 
-        int subtaskId = getNextId();
-        subtask.setId(subtaskId);
-        subtasks.put(subtaskId, subtask);
-        epic.putSubtaskId(subtaskId);
+        int id = getNextId();
+        subtask.setId(id);
+        subtasks.put(id, subtask);
+        epic.putSubtaskId(id);
 
         updateEpicStatus(mainTaskId); //Обновляем статус епику
+        return id;
     }
 
     //Получение списка всех задач.
