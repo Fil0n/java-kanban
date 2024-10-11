@@ -5,7 +5,7 @@ import com.yandex.app.model.Task;
 public class InMemoryHistoryManager implements HistoryManager{
     private final int HISTORY_MAX_COUNT = 10;
     private final Task[] history = new Task[HISTORY_MAX_COUNT];
-    private int historyCount = 0;
+    private int historyCount = -1;
     @Override
     public Task[] getHistory() {
         return history;
