@@ -6,7 +6,7 @@ import com.yandex.app.model.*;
 public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
-        HistoryManager historyManager = Managers.getDefaultHistory();
+        HistoryManager historyManager = taskManager.getHistoryManager();
 
         Task task1 = new Task("Таск 1", "Описание 1");
         taskManager.addTask(task1);
