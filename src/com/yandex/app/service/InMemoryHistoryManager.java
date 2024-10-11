@@ -3,7 +3,8 @@ package com.yandex.app.service;
 import com.yandex.app.model.Task;
 
 public class InMemoryHistoryManager implements HistoryManager{
-    private final Task[] history = new Task[10];
+    private final int HISTORY_MAX_COUNT = 10;
+    private final Task[] history = new Task[HISTORY_MAX_COUNT];
     private int historyCount = 0;
     @Override
     public Task[] getHistory() {
@@ -12,13 +13,14 @@ public class InMemoryHistoryManager implements HistoryManager{
 
     @Override
     public void add(Task task){
-        if (historyCount > 8){
+        if (historyCount == (HISTORY_MAX_COUNT-1)){
             for (int i = 0; i < historyCount; i++) {
                 history[i] = history[i+1];
             }
+        } else {
+            historyCount++;
         }
 
         history[historyCount] = task;
-        historyCount++;
     }
 }

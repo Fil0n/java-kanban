@@ -1,20 +1,102 @@
 package com.yandex.app.Tests;
 
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 import com.yandex.app.service.HistoryManager;
 import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 class Tests {
     public final TaskManager taskManager = Managers.getDefault();
-    public final HistoryManager historyManager = Managers.getDefaultHistory();
+    public final HistoryManager historyManager = taskManager.getHistoryManager();
 
     @Test
     void addNewTask() {
-        Task task1 = new Task("Таск 1", "Описание 1");
-
-        int taskId = taskManager.addTask(task1);
+        Task task = new Task("Таск 1", "Описание 1");
+        final int taskId = taskManager.addTask(task);
         final Task savedTask = taskManager.getTaskById(taskId);
+        checkTask(task, savedTask, taskManager.getTasks());
+    }
+
+    @Test
+    void addNewEpicAndSubtask() {
+        Epic epic = new Epic("Епик 1", "Описание 1");
+        final int epicId = taskManager.addEpic(epic);
+        final Epic savedEpic = taskManager.getEpicById(epicId);
+        checkTask(epic, savedEpic, taskManager.getEpics());
+
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание Сабтаск 1", epicId);
+        final int subtaskId = taskManager.addSubtask(subtask);
+        final Subtask savedSubtask = taskManager.getSubtaskById(subtaskId);
+        checkTask(subtask, savedSubtask, taskManager.getSubtasks());
+    }
+
+    @Test
+    void addSubtaskAsEpic() {
+        Epic epic = new Epic("Епик 1", "Описание 1");
+        final Integer epicId = taskManager.addEpic(epic);
+        Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epicId);
+        final Integer subtask1Id = taskManager.addSubtask(subtask1);
+        Subtask subtask2 = new Subtask("Сабтаск 2", "Описание 2", subtask1Id);
+        final Integer subtask2Id = taskManager.addSubtask(subtask1);
+        assertNotNull(subtask2Id, "Cабтаск может быть своим эпиком.");
+    }
+
+    @Test
+    void checkManadgers() {
+        assertNotNull(taskManager, "Менеджер тасков не загружен");
+        assertNotNull(historyManager, "Менеджер истории не загружен");
+    }
+
+    <T> void checkTask(T task, T savedTask, ArrayList<T> tasks){
+        assertNotNull(savedTask, "Задача не найдена.");
+        assertEquals(task, savedTask, "Задачи не совпадают.");
+        assertNotNull(tasks, "Задачи не возвращаются.");
+        assertEquals(1, tasks.size(), "Неверное количество задач.");
+        assertEquals(task, tasks.get(0), "Задачи не совпадают.");
+    }
+
+    @Test
+    void checkTaskHistory() {
+        Epic epic = new Epic("Епик 1", "Описание 1");
+        final Integer epicId = taskManager.addEpic(epic);
+        Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epicId);
+        final Integer subtask1Id = taskManager.addSubtask(subtask1);
+        Subtask subtask2 = new Subtask("Сабтаск 2", "Описание 2", epicId);
+        final Integer subtask2Id = taskManager.addSubtask(subtask2);
+        Task task = new Task("Таск 1", "Описание 1");
+        final int taskId = taskManager.addTask(task);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getTaskById(taskId);
+        taskManager.getEpicById(epicId);
+        taskManager.getSubtaskById(subtask1Id);
+        taskManager.getSubtaskById(subtask2Id);
+
+        Task[] history = historyManager.getHistory();
+        assertEquals(task, history[0], "Не соотвтствует таску в элементе 0.");
+        assertEquals(task, history[1], "Не соотвтствует таску в элементе 1.");
+        assertEquals(task, history[2], "Не соотвтствует таску в элементе 2.");
+        assertEquals(task, history[3], "Не соотвтствует таску в элементе 3.");
+        assertEquals(task, history[4], "Не соотвтствует таску в элементе 4.");
+        assertEquals(task, history[5], "Не соотвтствует таску в элементе 5.");
+        assertEquals(task, history[6], "Не соотвтствует таску в элементе 6.");
+        assertEquals(epic, history[7], "Не соотвтствует эпику в элементе 7.");
+        assertEquals(subtask1, history[8], "Не соотвтствует сабтаску1 в элементе 8.");
+        assertEquals(subtask2, history[9], "Не соотвтствует сабтаску2 в элементе 9.");
     }
 }

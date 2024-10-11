@@ -13,6 +13,11 @@ public class InMemoryTaskManager implements TaskManager {
     private HistoryManager historyManager = Managers.getDefaultHistory();
     private int counter = 0;
 
+    @Override
+    public HistoryManager getHistoryManager(){
+        return historyManager;
+    }
+
     //Создание тасков
     @Override
     public Integer addTask(Task task) {
