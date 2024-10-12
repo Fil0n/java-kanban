@@ -4,7 +4,7 @@ import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
     //Создание тасков
@@ -15,11 +15,11 @@ public interface TaskManager {
     Integer addSubtask(Subtask subtask);
 
     //Получение списка всех задач.
-    ArrayList<Task> getTasks();
+    List<Task> getTasks();
 
-    ArrayList<Epic> getEpics();
+    List<Epic> getEpics();
 
-    ArrayList<Subtask> getSubtasks();
+    List<Subtask> getSubtasks();
 
     //Удаление задач
     void removeEpics();
@@ -50,7 +50,7 @@ public interface TaskManager {
     void removeSubtaskById(int id);
 
     //Получение списка всех подзадач определённого эпика
-    ArrayList<Subtask> getEpicSubtasks(int id);
+    List<Subtask> getEpicSubtasks(int id);
 
     Task[] getHistory();
 }

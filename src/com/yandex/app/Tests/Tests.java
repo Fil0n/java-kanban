@@ -7,7 +7,7 @@ import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,7 +53,7 @@ class Tests {
         assertNotNull(Managers.getDefaultHistory(), "Менеджер истории не загружен");
     }
 
-    <T> void checkTask(T task, T savedTask, ArrayList<T> tasks) {
+    <T> void checkTask(T task, T savedTask, List<T> tasks) {
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
         assertNotNull(tasks, "Задачи не возвращаются.");
