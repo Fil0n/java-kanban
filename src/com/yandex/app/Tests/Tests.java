@@ -85,16 +85,16 @@ class Tests {
         taskManager.getSubtaskById(subtask1Id);
         taskManager.getSubtaskById(subtask2Id);
 
-        Task[] history = taskManager.getHistory();
-        assertEquals(task, history[0], "Не соотвтствует таску в элементе 0.");
-        assertEquals(task, history[1], "Не соотвтствует таску в элементе 1.");
-        assertEquals(task, history[2], "Не соотвтствует таску в элементе 2.");
-        assertEquals(task, history[3], "Не соотвтствует таску в элементе 3.");
-        assertEquals(task, history[4], "Не соотвтствует таску в элементе 4.");
-        assertEquals(task, history[5], "Не соотвтствует таску в элементе 5.");
-        assertEquals(task, history[6], "Не соотвтствует таску в элементе 6.");
-        assertEquals(epic, history[7], "Не соотвтствует эпику в элементе 7.");
-        assertEquals(subtask1, history[8], "Не соотвтствует сабтаску1 в элементе 8.");
-        assertEquals(subtask2, history[9], "Не соотвтствует сабтаску2 в элементе 9.");
+        List<Task> history = taskManager.getHistory();
+        assertEquals(task, history.get(0), "Не соотвтствует таску в элементе 0.");
+        assertEquals(task, history.get(1), "Не соотвтствует таску в элементе 2.");
+        assertEquals(task, history.get(2), "Не соотвтствует таску в элементе 1.");
+        assertEquals(task, history.get(3), "Не соотвтствует таску в элементе 3.");
+        assertEquals(task, history.get(4), "Не соотвтствует таску в элементе 4.");
+        assertEquals(task, history.get(5), "Не соотвтствует таску в элементе 5.");
+        assertEquals(task, history.get(6), "Не соотвтствует таску в элементе 6.");
+        assertEquals(epic, history.get(7), "Не соотвтствует эпику в элементе 7.");
+        assertEquals(subtask1, history.get(8), "Не соотвтствует сабтаску1 в элементе 8.");
+        assertEquals(subtask2, history.get(9), "Не соотвтствует сабтаску2 в элементе 9.");
     }
 }

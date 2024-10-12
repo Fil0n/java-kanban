@@ -3,10 +3,11 @@ package com.yandex.app;
 import com.yandex.app.service.*;
 import com.yandex.app.model.*;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         TaskManager taskManager = Managers.getDefault();
-        HistoryManager historyManager = taskManager.getHistoryManager();
 
         Task task1 = new Task("Таск 1", "Описание 1");
         taskManager.addTask(task1);
@@ -154,7 +155,7 @@ public class Main {
         printEpicsWithSubtasks(taskManager);
         System.out.println("============================================================== \n");
 
-        Task[] tasks =  historyManager.getHistory();
+        List<Task> tasks =  taskManager.getHistory();
 
         System.out.println("История");
         for(Task task : tasks){
