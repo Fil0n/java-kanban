@@ -39,5 +39,6 @@ public interface TaskManager {
 
     //Получение списка всех подзадач определённого эпика
     ArrayList<Subtask> getEpicSubtasks(int id);
+
     Task[] getHistory();
 }

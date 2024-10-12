@@ -13,6 +13,11 @@ public class InMemoryHistoryManager implements HistoryManager{
 
     @Override
     public void add(Task task){
+
+        if (task == null) {
+            return;
+        }
+        
         if (historyCount == (HISTORY_MAX_COUNT-1)){
             for (int i = 0; i < historyCount; i++) {
                 history[i] = history[i+1];
