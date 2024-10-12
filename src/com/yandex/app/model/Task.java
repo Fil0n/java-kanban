@@ -1,7 +1,5 @@
 package com.yandex.app.model;
 
-import com.yandex.app.service.Status;
-
 public class Task {
     private String name;
     private String description;
