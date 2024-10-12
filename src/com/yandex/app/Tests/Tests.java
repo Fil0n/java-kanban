@@ -3,7 +3,6 @@ package com.yandex.app.Tests;
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
-import com.yandex.app.service.HistoryManager;
 import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.Test;
