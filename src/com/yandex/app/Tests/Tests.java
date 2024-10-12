@@ -15,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class Tests {
     public final TaskManager taskManager = Managers.getDefault();
-    public final HistoryManager historyManager = taskManager.getHistoryManager();
 
     @Test
     void addNewTask() {
@@ -51,11 +50,11 @@ class Tests {
 
     @Test
     void checkManadgers() {
-        assertNotNull(taskManager, "Менеджер тасков не загружен");
-        assertNotNull(historyManager, "Менеджер истории не загружен");
+        assertNotNull(Managers.getDefault(), "Менеджер тасков не загружен");
+        assertNotNull(Managers.getDefaultHistory(), "Менеджер истории не загружен");
     }
 
-    <T> void checkTask(T task, T savedTask, ArrayList<T> tasks){
+    <T> void checkTask(T task, T savedTask, ArrayList<T> tasks) {
         assertNotNull(savedTask, "Задача не найдена.");
         assertEquals(task, savedTask, "Задачи не совпадают.");
         assertNotNull(tasks, "Задачи не возвращаются.");
@@ -87,7 +86,7 @@ class Tests {
         taskManager.getSubtaskById(subtask1Id);
         taskManager.getSubtaskById(subtask2Id);
 
-        Task[] history = historyManager.getHistory();
+        Task[] history = taskManager.getHistory();
         assertEquals(task, history[0], "Не соотвтствует таску в элементе 0.");
         assertEquals(task, history[1], "Не соотвтствует таску в элементе 1.");
         assertEquals(task, history[2], "Не соотвтствует таску в элементе 2.");
