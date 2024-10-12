@@ -14,7 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     private int counter = 0;
 
     @Override
-    public Task[] getHistory(){
+    public Task[] getHistory() {
         return historyManager.getHistory();
     }
 
