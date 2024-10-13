@@ -1,4 +1,4 @@
-package service;
+package com.yandex.app.service;
 
 import com.yandex.app.service.Managers;
 import org.junit.jupiter.api.Test;
