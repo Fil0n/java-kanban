@@ -1,10 +1,10 @@
-package test.com.yandex.app.model;
+package model;
 
 import com.yandex.app.model.Task;
 import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.Test;
-import test.com.yandex.app.utils.TestUtils;
+import utils.TestUtils;
 
 public class TaskTest {
     public final TaskManager taskManager = Managers.getDefault();

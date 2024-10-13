@@ -1,4 +1,4 @@
-package test.com.yandex.app.utils;
+package utils;
 
 import java.util.List;
 

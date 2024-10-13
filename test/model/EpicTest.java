@@ -1,11 +1,11 @@
-package test.com.yandex.app.model;
+package model;
 
 import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.Test;
-import test.com.yandex.app.utils.TestUtils;
+import utils.TestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertNull;
 
