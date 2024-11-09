@@ -39,4 +39,30 @@ public class HistoryManagerTest {
         assertEquals(subtask1, history.get(2), "Не соотвтствует сабтаску1 в элементе 2.");
         assertEquals(subtask2, history.get(3), "Не соотвтствует сабтаску2 в элементе 3.");
     }
+
+    @Test
+    void removeTaskFromHistory() {
+        Task task1 = new Task("Таск 1", "Описание 1");
+        final int taskId1 = taskManager.addTask(task1);
+        Task task2 = new Task("Таск 2", "Описание 2");
+        final int taskId2 = taskManager.addTask(task2);
+        Task task3 = new Task("Таск 3", "Описание 3");
+        final int taskId3 = taskManager.addTask(task3);
+
+        taskManager.getTaskById(taskId1);
+        taskManager.getTaskById(taskId2);
+        taskManager.getTaskById(taskId3);
+
+        List<Task> history = taskManager.getHistory();
+
+        assertEquals(task1, history.get(0), "Не соотвтствует таску в элементе 0");
+        assertEquals(task2, history.get(1), "Не соотвтствует таску в элементе 1.");
+        assertEquals(task3, history.get(2), "Не соотвтствует таску в элементе 2.");
+
+        taskManager.removeTaskById(taskId2);
+        history = taskManager.getHistory();
+
+        assertEquals(task1, history.get(0), "Не соотвтствует таску в элементе 0");
+        assertEquals(task3, history.get(1), "Не соотвтствует таску в элементе 1.");
+    }
 }
