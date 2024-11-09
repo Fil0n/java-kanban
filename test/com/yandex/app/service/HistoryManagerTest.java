@@ -34,12 +34,9 @@ public class HistoryManagerTest {
 
         List<Task> history = taskManager.getHistory();
 
-        for(int i=0; i<7; i++){
-            assertEquals(task, history.get(i), "Не соотвтствует таску в элементе " + i);
-        }
-
-        assertEquals(epic, history.get(7), "Не соотвтствует эпику в элементе 7.");
-        assertEquals(subtask1, history.get(8), "Не соотвтствует сабтаску1 в элементе 8.");
-        assertEquals(subtask2, history.get(9), "Не соотвтствует сабтаску2 в элементе 9.");
+        assertEquals(task, history.get(0), "Не соотвтствует таску в элементе 0");
+        assertEquals(epic, history.get(1), "Не соотвтствует эпику в элементе 1.");
+        assertEquals(subtask1, history.get(2), "Не соотвтствует сабтаску1 в элементе 2.");
+        assertEquals(subtask2, history.get(3), "Не соотвтствует сабтаску2 в элементе 3.");
     }
 }
