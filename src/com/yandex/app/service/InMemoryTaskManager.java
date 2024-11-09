@@ -151,11 +151,13 @@ public class InMemoryTaskManager implements TaskManager {
     //Удаление по идентификатору
     @Override
     public void removeTaskById(int id) {
+        historyManager.remove(id);
         tasks.remove(id);
     }
 
     @Override
     public void removeEpicById(int id) {
+        historyManager.remove(id);
         final Epic epic = epics.remove(id);
         final List<Integer> subtaskIds = epic.getSubtasksIds();
         for (int subtaskId : subtaskIds) {
@@ -165,6 +167,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void removeSubtaskById(int id) {
+        historyManager.remove(id);
         final int epicId = subtasks.remove(id).getEpicId();
         epics.get(epicId).removeSubtaskId(id);
         updateEpicStatus(epicId);
