@@ -44,8 +44,10 @@ public class HistoryManagerTest {
     void removeTaskFromHistory() {
         Task task1 = new Task("Таск 1", "Описание 1");
         final int taskId1 = taskManager.addTask(task1);
+
         Task task2 = new Task("Таск 2", "Описание 2");
         final int taskId2 = taskManager.addTask(task2);
+
         Task task3 = new Task("Таск 3", "Описание 3");
         final int taskId3 = taskManager.addTask(task3);
 
@@ -53,16 +55,47 @@ public class HistoryManagerTest {
         taskManager.getTaskById(taskId2);
         taskManager.getTaskById(taskId3);
 
+        taskManager.removeTaskById(taskId2);
         List<Task> history = taskManager.getHistory();
 
         assertEquals(task1, history.get(0), "Не соотвтствует таску в элементе 0");
-        assertEquals(task2, history.get(1), "Не соотвтствует таску в элементе 1.");
-        assertEquals(task3, history.get(2), "Не соотвтствует таску в элементе 2.");
-
-        taskManager.removeTaskById(taskId2);
-        history = taskManager.getHistory();
-
-        assertEquals(task1, history.get(0), "Не соотвтствует таску в элементе 0");
         assertEquals(task3, history.get(1), "Не соотвтствует таску в элементе 1.");
+    }
+
+    @Test
+    void removeEpicFromHistory() {
+        Epic epic1 = new Epic("Epic 1", "Описание 1");
+        final int epic1Id = taskManager.addEpic(epic1);
+
+        Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
+        final Integer subtask1Id = taskManager.addSubtask(subtask1);
+        Subtask subtask2 = new Subtask("Сабтаск 2", "Описание 2", epic1Id);
+        final Integer subtask2Id = taskManager.addSubtask(subtask2);
+        Subtask subtask3 = new Subtask("Сабтаск 3", "Описание 3", epic1Id);
+        final Integer subtask3Id = taskManager.addSubtask(subtask2);
+
+        Epic epic2 = new Epic("Epic 2", "Описание 2");
+        final int epic2Id = taskManager.addEpic(epic2);
+
+        Epic epic3 = new Epic("Epic 3", "Описание 3");
+        final int epic3Id = taskManager.addEpic(epic3);
+
+        taskManager.getEpicById(epic1Id);
+        taskManager.getEpicById(epic2Id);
+        taskManager.getEpicById(epic3Id);
+
+        taskManager.getSubtaskById(subtask1Id);
+        taskManager.getSubtaskById(subtask2Id);
+        taskManager.getSubtaskById(subtask3Id);
+
+        taskManager.removeEpicById(epic1Id);
+
+        List<Task> history = taskManager.getHistory();
+
+        assertEquals(epic2, history.get(0), "Не соотвтствует эпику в элементе 0");
+        assertEquals(epic3, history.get(1), "Не соотвтствует эпику в элементе 1.");
+
+        assertEquals(2, history.size(), "Неверное количество задач.");
+
     }
 }
