@@ -1,10 +1,9 @@
 package com.yandex.app.service;
 
 import com.yandex.app.model.Epic;
+import com.yandex.app.model.Status;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
-import com.yandex.app.service.Managers;
-import com.yandex.app.service.TaskManager;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -126,5 +125,22 @@ public class HistoryManagerTest {
         assertEquals(subtask1, history.get(1), "Не соотвтствует эпику в элементе 1.");
 
         assertEquals(2, history.size(), "Неверное количество задач.");
+    }
+
+    @Test
+    void updateSubtaskFromHistiry() {
+        Epic epic1 = new Epic("Epic 1", "Описание 1");
+        final int epic1Id = taskManager.addEpic(epic1);
+
+        Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
+        final Integer subtask1Id = taskManager.addSubtask(subtask1);
+
+        taskManager.getEpicById(epic1Id);
+        taskManager.getSubtaskById(subtask1Id).setStatus(Status.IN_PROGRESS);
+
+        List<Task> history = taskManager.getHistory();
+
+        assertEquals(epic1.getStatus(), history.get(0).getStatus(), "У эпика в истории не верный статус");
+        assertEquals(subtask1.getStatus(), history.get(1).getStatus(), "У сабтаска в истории не верный статус");
     }
 }
