@@ -98,4 +98,33 @@ public class HistoryManagerTest {
         assertEquals(2, history.size(), "Неверное количество задач.");
 
     }
+
+    @Test
+    void removeSubtaskFromHistiry() {
+        Epic epic1 = new Epic("Epic 1", "Описание 1");
+        final int epic1Id = taskManager.addEpic(epic1);
+
+        Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
+        final Integer subtask1Id = taskManager.addSubtask(subtask1);
+        Subtask subtask2 = new Subtask("Сабтаск 2", "Описание 2", epic1Id);
+        final Integer subtask2Id = taskManager.addSubtask(subtask2);
+        Subtask subtask3 = new Subtask("Сабтаск 3", "Описание 3", epic1Id);
+        final Integer subtask3Id = taskManager.addSubtask(subtask3);
+
+        taskManager.getEpicById(epic1Id);
+
+        taskManager.getSubtaskById(subtask1Id);
+        taskManager.getSubtaskById(subtask2Id);
+        taskManager.getSubtaskById(subtask3Id);
+
+        taskManager.removeSubtaskById(subtask2Id);
+        taskManager.removeSubtaskById(subtask3Id);
+
+        List<Task> history = taskManager.getHistory();
+
+        assertEquals(epic1, history.get(0), "Не соотвтствует эпику в элементе 0");
+        assertEquals(subtask1, history.get(1), "Не соотвтствует эпику в элементе 1.");
+
+        assertEquals(2, history.size(), "Неверное количество задач.");
+    }
 }
