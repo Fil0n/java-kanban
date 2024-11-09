@@ -37,11 +37,11 @@ public class InMemoryHistoryManager implements HistoryManager {
 
             int taskId = task.getId();
 
-            if(map.containsKey(taskId)) {
+            if (map.containsKey(taskId)) {
                 removeNode(map.get(taskId));
             }
 
-            if(head == null) {
+            if (head == null) {
                 head = node;
             } else {
                 node.setPrev(tail);
@@ -55,7 +55,7 @@ public class InMemoryHistoryManager implements HistoryManager {
 
         private void removeNode(Node node) {
 
-            if(node == null) {
+            if (node == null) {
                 return;
             }
 
@@ -64,19 +64,19 @@ public class InMemoryHistoryManager implements HistoryManager {
             Node nextNode = node.getNext();
             Node prevNode = node.getPrev();
 
-            if(prevNode == null && nextNode == null) {
+            if (prevNode == null && nextNode == null) {
                 tail = null;
                 head = null;
                 return;
             }
 
-            if(prevNode != null) {
+            if (prevNode != null) {
                 prevNode.setNext(nextNode);
             } else {
                 head = nextNode;
             }
 
-            if(nextNode != null) {
+            if (nextNode != null) {
                 nextNode.setPrev(prevNode);
             } else {
                 tail = prevNode;

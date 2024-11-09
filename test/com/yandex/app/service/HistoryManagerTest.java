@@ -24,7 +24,7 @@ public class HistoryManagerTest {
         Task task = new Task("Таск 1", "Описание 1");
         final int taskId = taskManager.addTask(task);
 
-        for(int i=0; i<10; i++){
+        for (int i = 0; i < 10; i++) {
             taskManager.getTaskById(taskId);
         }
         taskManager.getEpicById(epicId);
