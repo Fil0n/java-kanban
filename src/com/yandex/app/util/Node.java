@@ -1,6 +1,5 @@
 package com.yandex.app.util;
 
-import com.yandex.app.model.Status;
 import com.yandex.app.model.Task;
 
 public class Node {
