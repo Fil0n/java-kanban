@@ -1,40 +1,92 @@
 package com.yandex.app.service;
 
 import com.yandex.app.model.Task;
+import com.yandex.app.util.Node;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private final int HISTORY_MAX_COUNT = 10;
-    private final Task[] history = new Task[HISTORY_MAX_COUNT];
-    private int historyCount = -1;
+    private final CustomLinkedList history = new CustomLinkedList();
 
     @Override
-    public List<Task> getHistory() {
-        return Arrays.asList(history) //TODOЖ Пока полноценно не понимаю, как с этим работать, надо поразбираться
-                .stream()
-                .filter(item -> !(item == null))
-                .collect(Collectors.toList());
+    public List getHistory() {
+        return history.getTasks();
     }
 
     @Override
     public void add(Task task) {
-
-        if (task == null) {
-            return;
-        }
-
-        if (historyCount == (HISTORY_MAX_COUNT - 1)) {
-            for (int i = 0; i < historyCount; i++) {
-                history[i] = history[i + 1];
-            }
-        } else {
-            historyCount++;
-        }
-
-        history[historyCount] = task;
+        history.linkLast(task);
     }
+
+    @Override
+    public void remove(int id) {
+        history.removeNode(id);
+    }
+
+    private class CustomLinkedList {
+        private final Map<Integer, Node> map = new HashMap<>();
+        private Node tail;
+        private Node head;
+
+        public void linkLast(Task task) {
+            Node node = new Node(task);
+            int taskId = task.getId();
+
+            removeNode(map.get(taskId));
+
+            if (head == null) {
+                head = node;
+            } else {
+                node.setPrev(tail);
+                tail.setNext(node);
+            }
+
+            tail = node;
+
+            map.put(taskId, node);
+        }
+
+        private void removeNode(Node node) {
+
+            if (node == null) {
+                return;
+            }
+
+            map.remove(node);
+
+            Node nextNode = node.getNext();
+            Node prevNode = node.getPrev();
+
+            if (prevNode != null) {
+                prevNode.setNext(nextNode);
+            } else {
+                head = nextNode;
+            }
+
+            if (nextNode != null) {
+                nextNode.setPrev(prevNode);
+            } else {
+                tail = prevNode;
+            }
+
+        }
+
+        private void removeNode(int id) {
+            removeNode(map.get(id));
+        }
+
+        private List<Task> getTasks() {
+            List<Task> result = new ArrayList<>();
+            Node element = head;
+            while (element != null) {
+                result.add(element.getTask());
+                element = element.getNext();
+            }
+            return result;
+        }
+    }
+
 }

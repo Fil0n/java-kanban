@@ -155,10 +155,10 @@ public class Main {
         printEpicsWithSubtasks(taskManager);
         System.out.println("============================================================== \n");
 
-        List<Task> tasks =  taskManager.getHistory();
+        List<Task> tasks = taskManager.getHistory();
 
         System.out.println("История");
-        for(Task task : tasks){
+        for (Task task : tasks) {
             System.out.println(task);
         }
 
