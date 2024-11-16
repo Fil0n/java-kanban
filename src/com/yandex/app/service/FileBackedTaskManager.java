@@ -97,14 +97,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public void clearFile(){
-        clearFile(DEFAULT_FILE);
-    }
-
-    public void clearFile(File file){
-        file.delete();
-    }
-
     private void putTask(String data) {
         Task task = Task.fromString(data);
         tasks.put(task.getId(), task);
