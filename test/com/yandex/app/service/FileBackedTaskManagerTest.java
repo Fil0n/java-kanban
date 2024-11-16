@@ -15,7 +15,7 @@ public class FileBackedTaskManagerTest {
     private final FileBackedTaskManager taskManager = new FileBackedTaskManager();
 
     @Test
-    void addTasksOnFile(){
+    void addTasksOnFile() {
         Task task1 = new Task("Таск 1", "Описание 1");
         int task1Id = taskManager.addTask(task1);
 
@@ -36,7 +36,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void removeTasksOnFile(){
+    void removeTasksOnFile() {
         Task task1 = new Task("Таск 1", "Описание 1");
         int task1Id = taskManager.addTask(task1);
 
@@ -58,7 +58,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void addEpiscOnFile(){
+    void addEpiscOnFile() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
         int epic1Id = taskManager.addEpic(epic1);
 
@@ -75,7 +75,5 @@ public class FileBackedTaskManagerTest {
         assertEquals(2, fTaskMenager.subtasks.size(), "Неверное количество сабтасков.");
         assertEquals(subtask1.getName(), fTaskMenager.getSubtaskById(subtaskId).getName(), "Сабтаски с идентификатором 2 не соответствуют");
         assertEquals(subtask2.getName(), fTaskMenager.getSubtaskById(subtask2Id).getName(), "Сабтаски с идентификатором 3 не соответствуют");
-
-
     }
 }

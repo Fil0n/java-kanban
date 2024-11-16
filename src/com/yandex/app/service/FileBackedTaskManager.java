@@ -97,17 +97,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    private void putTask(String data){
+    private void putTask(String data) {
         Task task = Task.fromString(data);
         tasks.put(task.getId(), task);
     }
 
-    private void putEpic(String data){
+    private void putEpic(String data) {
         Epic epic = (Epic) Epic.fromString(data);
         epics.put(epic.getId(), epic);
     }
 
-    private void putSubTask(String data){
+    private void putSubTask(String data) {
         Subtask subtask = (Subtask) Subtask.fromString(data);
         subtasks.put(subtask.getId(), subtask);
 

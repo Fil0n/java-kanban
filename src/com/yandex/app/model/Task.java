@@ -61,6 +61,7 @@ public class Task {
     public String toString(TaskType type) {
         return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
     }
+
     @Override
     public String toString() {
         return toString(type);

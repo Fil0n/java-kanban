@@ -15,7 +15,7 @@ public class TaskManagerTest {
     private final TaskManager taskManager = new InMemoryTaskManager();
 
     @Test
-    void removeEpic(){
+    void removeEpic() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
 
         int epic1Id = taskManager.addEpic(epic1);
@@ -33,7 +33,7 @@ public class TaskManagerTest {
     }
 
     @Test
-    void getEpicSubtasks(){
+    void getEpicSubtasks() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
 
         int epic1Id = taskManager.addEpic(epic1);
@@ -53,7 +53,7 @@ public class TaskManagerTest {
     }
 
     @Test
-    void getEpicStatus(){
+    void getEpicStatus() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
         int epic1Id = taskManager.addEpic(epic1);
         Epic savedEpic = taskManager.getEpicById(epic1Id);
@@ -79,10 +79,6 @@ public class TaskManagerTest {
 
         assertEquals(Status.DONE, savedEpic.getStatus(), "Неверный статус епика " + savedEpic.getStatus() + " ожидается " + Status.DONE);
     }
-
-
-
-
 
 
 }
