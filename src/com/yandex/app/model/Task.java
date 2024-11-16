@@ -63,10 +63,10 @@ public class Task {
         return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
     }
 
-    public static Task fromString(String taskString){
+    public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
 
-        if(data.length != 5) {
+        if (data.length != 5) {
             return null;
         }
 

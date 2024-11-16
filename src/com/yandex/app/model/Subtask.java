@@ -29,10 +29,10 @@ public class Subtask extends Task {
         return String.format("%s,%d", s, epicId);
     }
 
-    public static Task fromString(String taskString){
+    public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
 
-        if(data.length != 6) {
+        if (data.length != 6) {
             return null;
         }
 

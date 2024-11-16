@@ -12,7 +12,7 @@ public class Epic extends Task {
 
         this.subtaskIds.clear();
 
-        for(Integer subtaskId : subtaskIds) {
+        for (Integer subtaskId : subtaskIds) {
             this.subtaskIds.add(subtaskId);
         }
     }
@@ -50,7 +50,7 @@ public class Epic extends Task {
     public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
 
-        if(data.length != 5) {
+        if (data.length != 5) {
             return null;
         }
 

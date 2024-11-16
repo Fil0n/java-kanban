@@ -12,11 +12,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     final private String DEFAULT_FILE_NAME = "tasks.csv";
     final private File DEFAULT_FILE = new File(DEFAULT_FILE_NAME);
 
-    void FileBackedTaskManager(){
+    void FileBackedTaskManager() {
         loadFromFile();
     }
 
-    void FileBackedTaskManager(File file){
+    void FileBackedTaskManager(File file) {
         loadFromFile(file);
     }
 
@@ -26,7 +26,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save(File file) {
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             try {
                 file.createNewFile();
             } catch (IOException e) {
@@ -65,13 +65,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public void loadFromFile(){
+    public void loadFromFile() {
         loadFromFile(DEFAULT_FILE);
     }
 
     public void loadFromFile(File file) {
 
-        if(!file.exists()) {
+        if (!file.exists()) {
             return;
         }
 
