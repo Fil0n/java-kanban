@@ -240,4 +240,8 @@ public class InMemoryTaskManager implements TaskManager {
     private int getNextId() {
         return ++counter;
     }
+
+    void setCounterMaxId(int id) {
+        counter = id > counter ? id : counter;
+    }
 }

@@ -97,19 +97,30 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
+    public void clearFile(){
+        clearFile(DEFAULT_FILE);
+    }
+
+    public void clearFile(File file){
+        file.delete();
+    }
+
     private void putTask(String data) {
         Task task = Task.fromString(data);
         tasks.put(task.getId(), task);
+        setCounterMaxId(task.getId());
     }
 
     private void putEpic(String data) {
         Epic epic = (Epic) Epic.fromString(data);
         epics.put(epic.getId(), epic);
+        setCounterMaxId(epic.getId());
     }
 
     private void putSubTask(String data) {
         Subtask subtask = (Subtask) Subtask.fromString(data);
         subtasks.put(subtask.getId(), subtask);
+        setCounterMaxId(subtask.getId());
 
         int epicId = subtask.getEpicId();
         final Epic epic = epics.get(epicId);
