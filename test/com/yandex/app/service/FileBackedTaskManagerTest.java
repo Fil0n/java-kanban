@@ -4,6 +4,7 @@ import com.yandex.app.model.Epic;
 import com.yandex.app.model.Status;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -11,6 +12,12 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class FileBackedTaskManagerTest {
+
+    @BeforeEach
+    void clearTasks(){
+        taskManager.removeTasks();
+        taskManager.removeEpics();
+    }
 
     private final FileBackedTaskManager taskManager = new FileBackedTaskManager();
 
@@ -34,8 +41,6 @@ public class FileBackedTaskManagerTest {
         assertEquals(task1.getName(), taskManager.getTaskById(task1Id).getName(), "Таски с идентификатором 1 не соответствуют");
         assertEquals(task2.getName(), taskManager.getTaskById(task2Id).getName(), "Таски с идентификатором 2 не соответствуют");
         assertEquals(task3.getName(), taskManager.getTaskById(task3Id).getName(), "Таски с идентификатором 3 не соответствуют");
-
-        taskManager.removeTasks();
     }
 
     @Test
@@ -59,8 +64,6 @@ public class FileBackedTaskManagerTest {
         assertEquals(2, tasks.size(), "Неверное количество задач.");
         assertEquals(task1.getName(), taskManager.getTaskById(task1Id).getName(), "Таски с идентификатором 1 не соответствуют");
         assertEquals(task2.getName(), taskManager.getTaskById(task2Id).getName(), "Таски с идентификатором 2 не соответствуют");
-
-        taskManager.removeTasks();
     }
 
     @Test
@@ -83,8 +86,6 @@ public class FileBackedTaskManagerTest {
         assertEquals(2, taskManager.subtasks.size(), "Неверное количество сабтасков.");
         assertEquals(subtask1.getName(), taskManager.getSubtaskById(subtaskId).getName(), "Сабтаски с идентификатором 2 не соответствуют");
         assertEquals(subtask2.getName(), taskManager.getSubtaskById(subtask2Id).getName(), "Сабтаски с идентификатором 3 не соответствуют");
-
-        taskManager.removeEpics();
     }
 
     @Test
@@ -108,8 +109,6 @@ public class FileBackedTaskManagerTest {
         assertEquals(1, taskManager.getEpicById(epic1Id).getSubtasksIds().size(), "Неверное количество сабтасков в епике");
         assertEquals(1, taskManager.subtasks.size(), "Неверное количество сабтасков.");
         assertEquals(subtask1.getName(), taskManager.getSubtaskById(subtaskId).getName(), "Сабтаски с идентификатором 2 не соответствуют");
-
-        taskManager.removeEpics();
     }
 
     @Test
@@ -131,7 +130,5 @@ public class FileBackedTaskManagerTest {
 
         assertEquals(0, taskManager.epics.size(), "Неверное количество эпиков.");
         assertEquals(0, taskManager.subtasks.size(), "Неверное количество сабтасков.");
-
-        taskManager.removeEpics();
     }
 }

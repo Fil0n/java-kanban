@@ -11,7 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class HistoryManagerTest {
-    public final TaskManager taskManager = Managers.getDefault();
+    public final TaskManager taskManager = new InMemoryTaskManager();
 
     @Test
     void checkTaskHistory() {
