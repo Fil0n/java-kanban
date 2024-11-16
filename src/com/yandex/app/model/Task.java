@@ -17,6 +17,13 @@ public class Task {
         this.status = Status.NEW;
     }
 
+    public Task(int id, String name, String description, Status status) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+    }
+
     public int getId() {
         return id;
     }
@@ -52,5 +59,15 @@ public class Task {
     @Override
     public String toString() {
         return String.format("%d,%s,%s,%s", id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+    }
+
+    public Task fromString(String taskString){
+        String[] data = taskString.split(",");
+
+        if(data.length != 4) {
+            return null;
+        }
+
+        return new Task(Integer.parseInt(data[0]), data[1], data[2], Status.valueOf(data[3]));
     }
 }
