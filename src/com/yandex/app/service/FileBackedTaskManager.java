@@ -168,4 +168,22 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         super.updateSubtask(newSubtask);
         save();
     }
+
+    @Override
+    public void removeTaskById(int id) {
+        super.removeTaskById(id);
+        save();
+    }
+
+    @Override
+    public void removeEpicById(int id) {
+        super.removeEpicById(id);
+        save();
+    }
+
+    @Override
+    public void removeSubtaskById(int id) {
+        super.removeSubtaskById(id);
+        save();
+    }
 }
