@@ -16,4 +16,10 @@ public class Subtask extends Task {
     public int getEpicId() {
         return epicId;
     }
+
+    @Override
+    public String toString() {
+        String s = super.toString();
+        return String.format("%s,%d", s, epicId);
+    }
 }

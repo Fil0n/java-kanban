@@ -51,6 +51,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("id: %d \n name: %s \n description: %s \n status: %s \n", id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+        return String.format("%d,%s,%s,%s", id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
     }
 }

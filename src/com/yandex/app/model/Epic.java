@@ -32,6 +32,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return super.toString() + "Subtasks: " + subtaskIds + "\n";
+        String s = super.toString();
+        return String.format("%s,%s", s, subtaskIds.toString());
     }
 }
