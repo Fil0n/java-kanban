@@ -79,6 +79,4 @@ public class TaskManagerTest {
 
         assertEquals(Status.DONE, savedEpic.getStatus(), "Неверный статус епика " + savedEpic.getStatus() + " ожидается " + Status.DONE);
     }
-
-
 }
