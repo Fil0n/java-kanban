@@ -12,11 +12,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     final private String DEFAULT_FILE_NAME = "tasks.csv";
     final private File DEFAULT_FILE = new File(DEFAULT_FILE_NAME);
 
-    void FileBackedTaskManager() {
+    public FileBackedTaskManager() {
         loadFromFile();
     }
 
-    void FileBackedTaskManager(File file) {
+    public FileBackedTaskManager(File file) {
         loadFromFile(file);
     }
 
@@ -70,7 +70,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void loadFromFile(File file) {
-
+        final TaskManager taskManager = new InMemoryTaskManager();
         if (!file.exists()) {
             return;
         }
@@ -86,9 +86,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 final TaskType type = Task.typeFromString(line);
 
                 switch (type) {
-                    case TASK -> addTask(Task.fromString(line));
-                    case EPIC -> addEpic(Epic.fromString(line));
-                    default -> addSubtask(Subtask.fromString(line));
+                    case TASK -> putTask(line);
+                    case EPIC -> putEpic(line);
+                    default -> putSubTask(line);
                 }
             }
         } catch (NullPointerException e) {
@@ -96,6 +96,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException e) {
             throw new RuntimeException("Ошибка в файле: " + file.getAbsolutePath(), e);
         }
+    }
+
+    private void putTask(String data){
+        Task task = Task.fromString(data);
+        tasks.put(task.getId(), task);
+    }
+
+    private void putEpic(String data){
+        Epic epic = (Epic) Epic.fromString(data);
+        epics.put(epic.getId(), epic);
+    }
+
+    private void putSubTask(String data){
+        Subtask subtask = (Subtask) Subtask.fromString(data);
+        subtasks.put(subtask.getId(), subtask);
     }
 
     @Override
