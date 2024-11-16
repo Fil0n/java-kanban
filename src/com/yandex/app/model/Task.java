@@ -6,6 +6,8 @@ public class Task {
     private int id;
     private Status status;
 
+    private final TaskType type = TaskType.TASK;
+
     public Task(String name) {
         this.name = name;
         this.status = Status.NEW;
@@ -58,16 +60,27 @@ public class Task {
 
     @Override
     public String toString() {
-        return String.format("%d,%s,%s,%s", id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+        return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
     }
 
-    public Task fromString(String taskString){
+    public static Task fromString(String taskString){
         String[] data = taskString.split(",");
 
-        if(data.length != 4) {
+        if(data.length != 5) {
             return null;
         }
 
-        return new Task(Integer.parseInt(data[0]), data[1], data[2], Status.valueOf(data[3]));
+        final Task task = new Task(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]));
+        return task;
+    }
+
+    public static TaskType typeFromString(String taskString) {
+        String[] data = taskString.split(",");
+
+        return TaskType.valueOf(data[0]);
+    }
+
+    public TaskType getType() {
+        return type;
     }
 }

@@ -2,6 +2,7 @@ package com.yandex.app.model;
 
 public class Subtask extends Task {
     private final int epicId;
+    private final TaskType type = TaskType.SUBTASK;
 
     public Subtask(int id, String name, String description, Status status, int epicId) {
         super(id, name, description, status);
@@ -28,14 +29,13 @@ public class Subtask extends Task {
         return String.format("%s,%d", s, epicId);
     }
 
-    @Override
-    public Task fromString(String taskString){
+    public static Task fromString(String taskString){
         String[] data = taskString.split(",");
 
-        if(data.length != 5) {
+        if(data.length != 6) {
             return null;
         }
 
-        return new Subtask(Integer.parseInt(data[0]), data[1], data[2], Status.valueOf(data[3]), Integer.parseInt(data[4]));
+        return new Subtask(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), Integer.parseInt(data[5]));
     }
 }
