@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    final File DEFAULTFILE = new File("tasks.csv");
+    final File dafaultFile = new File("tasks.csv");
 
     public FileBackedTaskManager() {
         loadFromFile();
@@ -20,7 +20,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void save() {
-        save(DEFAULTFILE);
+        save(dafaultFile);
     }
 
     public void save(File file) {
@@ -65,7 +65,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void loadFromFile() {
-        loadFromFile(DEFAULTFILE);
+        loadFromFile(dafaultFile);
     }
 
     public void loadFromFile(File file) {
