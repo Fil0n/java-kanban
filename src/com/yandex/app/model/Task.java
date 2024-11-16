@@ -58,9 +58,12 @@ public class Task {
         this.status = status;
     }
 
+    public String toString(TaskType type) {
+        return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+    }
     @Override
     public String toString() {
-        return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+        return toString(type);
     }
 
     public static Task fromString(String taskString) {

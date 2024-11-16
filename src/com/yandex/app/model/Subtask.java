@@ -25,7 +25,7 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        String s = super.toString();
+        String s = super.toString(type);
         return String.format("%s,%d", s, epicId);
     }
 
