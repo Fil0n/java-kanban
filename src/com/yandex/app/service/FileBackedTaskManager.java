@@ -1,9 +1,6 @@
 package com.yandex.app.service;
 
-import com.yandex.app.model.Epic;
-import com.yandex.app.model.Subtask;
-import com.yandex.app.model.Task;
-import com.yandex.app.model.TaskType;
+import com.yandex.app.model.*;
 import com.yandex.app.util.ManagerSaveException;
 
 import java.io.*;
@@ -13,14 +10,15 @@ import java.util.Map;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    final private String DEFAULT_FILE_NAME = "Tasks.csv";
+    final private String DEFAULT_FILE_NAME = "resources\\\\tasks.csv";
+    final private File DEFAULT_FILE = new File(DEFAULT_FILE_NAME);
 
     public void save() {
-        save(DEFAULT_FILE_NAME);
+        save(DEFAULT_FILE);
     }
 
-    public void save(String fileName) {
-        try (FileWriter writer = new FileWriter(fileName)) {
+    public void save(File file) {
+        try (FileWriter writer = new FileWriter(file)) {
             List<Task> tasks = getTasks();
             if (tasks.isEmpty()) {
                 for (Task task : tasks) {
@@ -48,9 +46,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-//    public void load(){
-//        load(DEFAULT_FILE_NAME);
-//    }
+    public void load(){
+        load(DEFAULT_FILE);
+    }
 
     public void load(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
@@ -90,9 +88,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return id;
     }
     @Override
-    public Integer addEpic(Task epic) {
+    public Integer reMoveEpic(Task epic) {
         int id = super.addEpic(epic);
         save();
         return id;
+    }
+
+    @Override
+    public void removeEpics() {
+        super.removeEpics();
+        save();
+    }
+
+    @Override
+    public void removeTasks() {
+        super.removeTasks();
+        save();
+    }
+
+    @Override
+    public void removeSubtasks() {
+        super.removeSubtasks();
+        save();
     }
 }
