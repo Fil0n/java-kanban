@@ -110,6 +110,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     private void putSubTask(String data){
         Subtask subtask = (Subtask) Subtask.fromString(data);
         subtasks.put(subtask.getId(), subtask);
+
+        int epicId = subtask.getEpicId();
+        final Epic epic = epics.get(epicId);
+        if (epic == null) {
+            return;
+        }
+
+        epic.putSubtaskId(subtask.getId());
+
+        updateEpicStatus(epicId);
     }
 
     @Override

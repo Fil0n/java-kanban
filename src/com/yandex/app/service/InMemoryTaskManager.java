@@ -202,7 +202,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //Обновление статуса эпика
-    private void updateEpicStatus(int epicId) {
+    void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         List<Integer> subtaskIds = epic.getSubtasksIds();
 
