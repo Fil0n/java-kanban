@@ -32,4 +32,26 @@ public class FileBackedTaskManagerTest {
         assertEquals(task2.getName(), fTaskMenager.getTaskById(task2Id).getName(), "Таски с идентификатором 2 не соответствуют");
         assertEquals(task3.getName(), fTaskMenager.getTaskById(task3Id).getName(), "Таски с идентификатором 3 не соответствуют");
     }
+
+    @Test
+    void removeTasksOnFile(){
+        Task task1 = new Task("Таск 1", "Описание 1");
+        int task1Id = taskManager.addTask(task1);
+
+        Task task2 = new Task("Таск 2", "Описание 2");
+        int task2Id = taskManager.addTask(task2);
+
+        Task task3 = new Task("Таск 3", "Описание 3");
+        task3.setStatus(Status.IN_PROGRESS);
+        int task3Id = taskManager.addTask(task3);
+
+        taskManager.removeTaskById(task3Id);
+
+        FileBackedTaskManager fTaskMenager = new FileBackedTaskManager();
+        List<Task> tasks = fTaskMenager.getTasks();
+
+        assertEquals(2, tasks.size(), "Неверное количество задач.");
+        assertEquals(task1.getName(), fTaskMenager.getTaskById(task1Id).getName(), "Таски с идентификатором 1 не соответствуют");
+        assertEquals(task2.getName(), fTaskMenager.getTaskById(task2Id).getName(), "Таски с идентификатором 2 не соответствуют");
+    }
 }
