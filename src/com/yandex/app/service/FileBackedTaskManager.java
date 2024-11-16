@@ -6,12 +6,19 @@ import com.yandex.app.util.ManagerSaveException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    final private String DEFAULT_FILE_NAME = "resources\\\\tasks.csv";
+    final private String DEFAULT_FILE_NAME = "resources\\tasks.csv";
     final private File DEFAULT_FILE = new File(DEFAULT_FILE_NAME);
+
+    void FileBackedTaskManager(){
+        loadFromFile();
+    }
+
+    void FileBackedTaskManager(File file){
+        loadFromFile(file);
+    }
 
     public void save() {
         save(DEFAULT_FILE);
@@ -46,11 +53,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
-    public void load(){
-        load(DEFAULT_FILE);
+    public void loadFromFile(){
+        loadFromFile(this.DEFAULT_FILE);
     }
 
-    public void load(File file) {
+    public void loadFromFile(File file) {
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             reader.readLine();
             while (true) {
