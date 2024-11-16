@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskManagerTest {
-    private final TaskManager taskManager = Managers.getDefault();
+    private final TaskManager taskManager = new InMemoryTaskManager();
 
     @Test
     void removeEpic(){
