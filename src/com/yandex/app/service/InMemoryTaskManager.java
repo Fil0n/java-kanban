@@ -29,7 +29,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addEpic(Epic epic) {
+    public Integer addEpic(Task epicTask) {
+        Epic epic = (Epic) epicTask;
         int id = getNextId();
         epic.setId(id);
         epics.put(epic.getId(), epic);
@@ -37,7 +38,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addSubtask(Subtask subtask) {
+    public Integer addSubtask(Task subtaskTask) {
+        Subtask subtask = (Subtask) subtaskTask;
         int mainTaskId = subtask.getEpicId();
 
         final Epic epic = epics.get(mainTaskId);
