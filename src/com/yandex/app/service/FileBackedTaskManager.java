@@ -1,4 +1,4 @@
 package com.yandex.app.service;
 
-public class FileBackedTaskManager {
+public class FileBackedTaskManager extends InMemoryTaskManager {
 }
