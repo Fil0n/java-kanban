@@ -9,7 +9,7 @@ import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    final private String DEFAULT_FILE_NAME = "resources\\tasks.csv";
+    final private String DEFAULT_FILE_NAME = "tasks.csv";
     final private File DEFAULT_FILE = new File(DEFAULT_FILE_NAME);
 
     void FileBackedTaskManager(){
@@ -25,25 +25,37 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void save(File file) {
-        try (FileWriter writer = new FileWriter(file)) {
+
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, StandardCharsets.UTF_8))) {
             List<Task> tasks = getTasks();
-            if (tasks.isEmpty()) {
+            if (!tasks.isEmpty()) {
                 for (Task task : tasks) {
-                    writer.append(task.toString());
+                    writer.write(task.toString());
+                    writer.newLine();
                 }
             }
 
             List<Epic> epics = getEpics();
-            if (epics.isEmpty()) {
+            if (!epics.isEmpty()) {
                 for (Epic epic : epics) {
-                    writer.append(epic.toString());
+                    writer.write(epic.toString());
+                    writer.newLine();
                 }
             }
 
             List<Subtask> subtasks = getSubtasks();
             if (!subtasks.isEmpty()) {
                 for (Subtask subtask : subtasks) {
-                    writer.append(subtask.toString());
+                    writer.write(subtask.toString());
+                    writer.newLine();
                 }
             }
         } catch (ManagerSaveException e) {
@@ -54,10 +66,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void loadFromFile(){
-        loadFromFile(this.DEFAULT_FILE);
+        loadFromFile(DEFAULT_FILE);
     }
 
     public void loadFromFile(File file) {
+
+        if(!file.exists()) {
+            return;
+        }
+
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             reader.readLine();
             while (true) {
@@ -83,14 +100,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Integer addSubtask(Task subtask) {
-        int id = super.addSubtask(subtask);
+        Integer id = super.addSubtask(subtask);
         save();
         return id;
     }
 
     @Override
     public Integer addTask(Task task) {
-        int id = super.addTask(task);
+        Integer id = super.addTask(task);
+        save();
+        return id;
+    }
+
+    @Override
+    public Integer addEpic(Task epicTask) {
+        Integer id = super.addEpic(epicTask);
         save();
         return id;
     }
