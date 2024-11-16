@@ -15,7 +15,7 @@ public class FileBackedTaskManagerTest {
     private final FileBackedTaskManager taskManager = new FileBackedTaskManager();
 
     @Test
-    void addTasksOnFile() {
+    void addTasks() {
         Task task1 = new Task("Таск 1", "Описание 1");
         int task1Id = taskManager.addTask(task1);
 
@@ -36,7 +36,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void removeTasksOnFile() {
+    void removeTask() {
         Task task1 = new Task("Таск 1", "Описание 1");
         int task1Id = taskManager.addTask(task1);
 
@@ -58,7 +58,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void addEpiscOnFile() {
+    void addEpic() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
         int epic1Id = taskManager.addEpic(epic1);
 
@@ -78,7 +78,7 @@ public class FileBackedTaskManagerTest {
     }
 
     @Test
-    void removeSubtaskOnFile() {
+    void removeSubtask() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
         int epic1Id = taskManager.addEpic(epic1);
 
@@ -96,5 +96,24 @@ public class FileBackedTaskManagerTest {
         assertEquals(1, fTaskMenager.getEpicById(epic1Id).getSubtasksIds().size(), "Неверное количество сабтасков в епике");
         assertEquals(1, fTaskMenager.subtasks.size(), "Неверное количество сабтасков.");
         assertEquals(subtask1.getName(), fTaskMenager.getSubtaskById(subtaskId).getName(), "Сабтаски с идентификатором 2 не соответствуют");
+    }
+
+    @Test
+    void removeEpic() {
+        Epic epic1 = new Epic("Epic 1", "Описание 1");
+        int epic1Id = taskManager.addEpic(epic1);
+
+        Subtask subtask1 = new Subtask("Subtask 1", "Описание 1", epic1Id);
+        int subtaskId = taskManager.addSubtask(subtask1);
+
+        Subtask subtask2 = new Subtask("Subtask 2", "Описание 1", epic1Id);
+        int subtask2Id = taskManager.addSubtask(subtask2);
+
+        taskManager.removeEpicById(epic1Id);
+
+        FileBackedTaskManager fTaskMenager = new FileBackedTaskManager();
+
+        assertEquals(0, fTaskMenager.epics.size(), "Неверное количество эпиков.");
+        assertEquals(0, fTaskMenager.subtasks.size(), "Неверное количество сабтасков.");
     }
 }
