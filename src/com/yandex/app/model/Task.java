@@ -7,6 +7,7 @@ public class Task {
     private Status status;
 
     private final TaskType type = TaskType.TASK;
+    private static final int parsingParamsCount = 5;
 
     public Task(String name) {
         this.name = name;
@@ -70,7 +71,7 @@ public class Task {
     public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
 
-        if (data.length != 5) {
+        if (data.length != parsingParamsCount) {
             return null;
         }
 

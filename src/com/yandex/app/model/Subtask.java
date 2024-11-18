@@ -3,6 +3,7 @@ package com.yandex.app.model;
 public class Subtask extends Task {
     private final int epicId;
     private final TaskType type = TaskType.SUBTASK;
+    private static final int parsingParamsCount = 6;
 
     public Subtask(int id, String name, String description, Status status, int epicId) {
         super(id, name, description, status);
@@ -32,7 +33,7 @@ public class Subtask extends Task {
     public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
 
-        if (data.length != 6) {
+        if (data.length != parsingParamsCount) {
             return null;
         }
 
