@@ -82,7 +82,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
             while (true) {
                 String line = reader.readLine();
-                if (line.isEmpty()) {
+                if (line == null || line.isEmpty()) {
                     break;
                 }
 
