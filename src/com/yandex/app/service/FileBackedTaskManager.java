@@ -94,9 +94,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     default -> putSubTask(line);
                 }
             }
-        } catch (NullPointerException e) {
-            return;
-        } catch (IOException e) {
+        }  catch (IOException e) {
             throw new RuntimeException("Ошибка в файле: " + file.getAbsolutePath(), e);
         }
     }
