@@ -32,7 +32,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new ManagerSaveException(e);
             }
         }
 
