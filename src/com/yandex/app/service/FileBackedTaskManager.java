@@ -23,10 +23,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void save() {
-        save(dafaultFile);
+
+        try {
+            save(dafaultFile);
+        } catch (ManagerSaveException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void save(File file) {
+    public void save(File file) throws ManagerSaveException {
 
         if (!file.exists()) {
             try {
@@ -60,10 +65,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     writer.newLine();
                 }
             }
-        } catch (ManagerSaveException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new ManagerSaveException(e);
         }
     }
 
