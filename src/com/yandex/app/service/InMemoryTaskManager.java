@@ -242,6 +242,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     void setCounterMaxId(int id) {
-        counter = id > counter ? id : counter;
+        counter = Math.max(counter, id);
     }
 }
