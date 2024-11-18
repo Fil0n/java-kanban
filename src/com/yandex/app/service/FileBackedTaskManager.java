@@ -75,7 +75,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public void loadFromFile(File file) {
-        final TaskManager taskManager = new InMemoryTaskManager();
         if (!file.exists()) {
             return;
         }
