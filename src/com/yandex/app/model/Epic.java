@@ -5,6 +5,17 @@ import java.util.List;
 
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
+    private final TaskType type = TaskType.EPIC;
+
+    public Epic(int id, String name, String description, Status status) {
+        super(id, name, description, status);
+
+        this.subtaskIds.clear();
+
+        for (Integer subtaskId : subtaskIds) {
+            this.subtaskIds.add(subtaskId);
+        }
+    }
 
     public Epic(String name) {
         super(name);
@@ -32,6 +43,19 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return super.toString() + "Subtasks: " + subtaskIds + "\n";
+        return super.toString(type);
     }
+
+    public static Task fromString(String taskString) {
+        String[] data = taskString.split(",");
+        final int parsingParamsCount = 5;
+
+        if (data.length != parsingParamsCount) {
+            return null;
+        }
+
+        return new Epic(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]));
+
+    }
+
 }

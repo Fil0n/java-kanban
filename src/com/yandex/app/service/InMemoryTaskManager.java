@@ -1,6 +1,9 @@
 package com.yandex.app.service;
 
-import com.yandex.app.model.*;
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.Task;
+import com.yandex.app.model.Subtask;
+import com.yandex.app.model.Status;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
+    final Map<Integer, Task> tasks = new HashMap<>();
+    final Map<Integer, Epic> epics = new HashMap<>();
+    final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private int counter = 0;
 
@@ -29,7 +32,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addEpic(Epic epic) {
+    public Integer addEpic(Task epicTask) {
+        Epic epic = (Epic) epicTask;
         int id = getNextId();
         epic.setId(id);
         epics.put(epic.getId(), epic);
@@ -37,7 +41,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addSubtask(Subtask subtask) {
+    public Integer addSubtask(Task subtaskTask) {
+        Subtask subtask = (Subtask) subtaskTask;
         int mainTaskId = subtask.getEpicId();
 
         final Epic epic = epics.get(mainTaskId);
@@ -200,7 +205,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //Обновление статуса эпика
-    private void updateEpicStatus(int epicId) {
+    void updateEpicStatus(int epicId) {
         Epic epic = epics.get(epicId);
         List<Integer> subtaskIds = epic.getSubtasksIds();
 
@@ -237,5 +242,9 @@ public class InMemoryTaskManager implements TaskManager {
     //Получение идентификатора нового таска (счетчик)
     private int getNextId() {
         return ++counter;
+    }
+
+    void setCounterMaxId(int id) {
+        counter = Math.max(counter, id);
     }
 }
