@@ -10,9 +10,9 @@ public interface TaskManager {
     //Создание тасков
     Integer addTask(Task task);
 
-    Integer addEpic(Epic epic);
+    Integer addEpic(Task epic);
 
-    Integer addSubtask(Subtask subtask);
+    Integer addSubtask(Task subtask);
 
     //Получение списка всех задач.
     List<Task> getTasks();
