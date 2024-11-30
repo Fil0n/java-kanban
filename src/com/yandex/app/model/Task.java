@@ -121,7 +121,7 @@ public class Task {
             return null;
         }
 
-        final Task task = new Task(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), data[5].isBlank() ? null : Integer.parseInt(data[5]), data[6].isBlank() ? null : data[6]);
+        final Task task = new Task(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), data[5].isBlank() ? null : Integer.parseInt(data[5]), data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
 
         return task;
     }
