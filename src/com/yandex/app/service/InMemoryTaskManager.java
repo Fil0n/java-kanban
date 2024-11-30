@@ -6,16 +6,24 @@ import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Status;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class InMemoryTaskManager implements TaskManager {
+
+    private static final Comparator<Task> taskComparator = Comparator.comparing(
+            Task::getStartTime, Comparator.nullsLast(Comparator.naturalOrder())).thenComparing(Task::getId);
     final Map<Integer, Task> tasks = new HashMap<>();
     final Map<Integer, Epic> epics = new HashMap<>();
     final Map<Integer, Subtask> subtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
+    private final Set<Task> prioritizedTasks = new TreeSet<>(taskComparator);
     private int counter = 0;
+
 
     @Override
     public List<Task> getHistory() {
@@ -28,6 +36,7 @@ public class InMemoryTaskManager implements TaskManager {
         int id = getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
+        prioritizedTasks.add(task);
         return id;
     }
 
@@ -55,7 +64,8 @@ public class InMemoryTaskManager implements TaskManager {
         subtasks.put(id, subtask);
         epic.putSubtaskId(id);
 
-        updateEpicStatus(mainTaskId); //Обновляем статус епику
+        updateEpic(mainTaskId); //Обновляем статус епику
+        prioritizedTasks.add(subtaskTask);
         return id;
     }
 
@@ -162,7 +172,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         subtasks.replace(id, newSubtask);
-        updateEpicStatus(newSubtask.getEpicId());
+        updateEpic(newSubtask.getEpicId());
     }
 
     //Удаление по идентификатору
@@ -188,7 +198,7 @@ public class InMemoryTaskManager implements TaskManager {
         historyManager.remove(id);
         final int epicId = subtasks.remove(id).getEpicId();
         epics.get(epicId).removeSubtaskId(id);
-        updateEpicStatus(epicId);
+        updateEpic(epicId);
     }
 
     //Получение списка всех подзадач определённого эпика
@@ -205,7 +215,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     //Обновление статуса эпика
-    void updateEpicStatus(int epicId) {
+    void updateEpic(int epicId) {
         Epic epic = epics.get(epicId);
         List<Integer> subtaskIds = epic.getSubtasksIds();
 
@@ -218,7 +228,8 @@ public class InMemoryTaskManager implements TaskManager {
         boolean hasDone = false;
 
         for (int subtaskId : subtaskIds) {
-            Status status = subtasks.get(subtaskId).getStatus();
+            Subtask subtask = subtasks.get(subtaskId);
+            Status status = subtask.getStatus();
 
             if (status == Status.IN_PROGRESS) {
                 epic.setStatus(Status.IN_PROGRESS);
@@ -227,6 +238,10 @@ public class InMemoryTaskManager implements TaskManager {
                 hasNew = true;
             } else {
                 hasDone = true;
+            }
+
+            if(subtask.getEndTime().isAfter(epic.getEndTime())) {
+                epic.setEndTime(subtask.getEndTime());
             }
         }
 
@@ -246,5 +261,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     void setCounterMaxId(int id) {
         counter = Math.max(counter, id);
+    }
+
+    public List<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
+    }
+
+    public void setPrioritizedTasks(Task task) {
+        this.prioritizedTasks.add(task);
     }
 }

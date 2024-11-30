@@ -124,7 +124,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         epic.putSubtaskId(subtask.getId());
 
-        updateEpicStatus(epicId);
+        updateEpic(epicId);
     }
 
     @Override
