@@ -14,7 +14,7 @@ public class Epic extends Task {
         super(id, name, description, status);
     }
 
-    public Epic(int id, String name, String description, Status status, int duration, LocalDateTime startTime) {
+    public Epic(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
         super(id, name, description, status, duration, startTime);
     }
 
@@ -22,7 +22,7 @@ public class Epic extends Task {
         super(id, name, description, status, startTime);
     }
 
-    public Epic(int id, String name, String description, Status status, int duration) {
+    public Epic(int id, String name, String description, Status status, Integer duration) {
         super(id, name, description, status, duration);
     }
 
@@ -63,7 +63,12 @@ public class Epic extends Task {
             return null;
         }
 
-        return new Epic(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), data[5].isBlank() ? null : Integer.parseInt(data[5]), data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
+        return new Epic(Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                Status.valueOf(data[4]),
+                data[5].isBlank() ? null : Integer.parseInt(data[5]),
+                data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
     }
 
     @Override
