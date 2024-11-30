@@ -1,5 +1,7 @@
 package com.yandex.app.model;
 
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private final int epicId;
     private final TaskType type = TaskType.SUBTASK;
@@ -16,6 +18,21 @@ public class Subtask extends Task {
 
     public Subtask(String name, String description, int epicId) {
         super(name, description);
+        this.epicId = epicId;
+    }
+
+    public Subtask(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime, int epicId) {
+        super(id, name, description, status, duration, startTime);
+        this.epicId = epicId;
+    }
+
+    public Subtask(int id, String name, String description, Status status, LocalDateTime startTime, int epicId) {
+        super(id, name, description, status, startTime);
+        this.epicId = epicId;
+    }
+
+    public Subtask(int id, String name, String description, Status status, Integer duration, int epicId) {
+        super(id, name, description, status, duration);
         this.epicId = epicId;
     }
 
@@ -37,6 +54,12 @@ public class Subtask extends Task {
             return null;
         }
 
-        return new Subtask(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), Integer.parseInt(data[5]));
+        return new Subtask(Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                Status.valueOf(data[4]),
+                data[5].isBlank() ? null : Integer.parseInt(data[5]),
+                data[6].isBlank() ? null : LocalDateTime.parse(data[6]),
+                Integer.parseInt(data[7]));
     }
 }
