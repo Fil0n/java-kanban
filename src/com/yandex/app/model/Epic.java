@@ -8,6 +8,7 @@ import java.util.List;
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
     private final TaskType type = TaskType.EPIC;
+    private LocalDateTime endTime;
 
     public Epic(int id, String name, String description, Status status) {
         super(id, name, description, status);
@@ -63,7 +64,14 @@ public class Epic extends Task {
         }
 
         return new Epic(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), data[5].isBlank() ? null : Integer.parseInt(data[5]), data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
-
     }
 
+    @Override
+    public LocalDateTime getEndTime(){
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }

@@ -16,6 +16,7 @@ public class Task {
 
 
 
+
     private final TaskType type = TaskType.TASK;
 
     public Task(String name) {
