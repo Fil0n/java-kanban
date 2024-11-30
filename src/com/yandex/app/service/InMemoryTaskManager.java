@@ -5,6 +5,7 @@ import com.yandex.app.model.Task;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Status;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -240,8 +241,18 @@ public class InMemoryTaskManager implements TaskManager {
                 hasDone = true;
             }
 
-            if(subtask.getEndTime().isAfter(epic.getEndTime())) {
-                epic.setEndTime(subtask.getEndTime());
+            LocalDateTime subtaskEndDate = subtask.getEndTime();
+            LocalDateTime epicEndDate = subtask.getEndTime();
+
+            if (subtaskEndDate != null) {
+                if (epicEndDate == null) {
+                    epic.setEndTime(subtaskEndDate);
+                    continue;
+                }
+
+                if(subtaskEndDate.isAfter(epicEndDate)) {
+                    epic.setEndTime(subtaskEndDate);
+                }
             }
         }
 
