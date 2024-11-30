@@ -1,10 +1,16 @@
 package com.yandex.app.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Task {
     private String name;
     private String description;
     private int id;
     private Status status;
+    private Duration duration;
+    private LocalDateTime startTime;
+
 
     private final TaskType type = TaskType.TASK;
 
@@ -20,6 +26,28 @@ public class Task {
     }
 
     public Task(int id, String name, String description, Status status) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Task(int id, String name, String description, Status status, int duration, LocalDateTime startTime) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.duration = Duration.ofMinutes(duration);
+    }
+
+    public Task(int id, String name, String description, Status status, LocalDateTime startTime) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+    }
+
+    public Task(int id, String name, String description, Status status, int duration) {
         this.id = id;
         this.status = status;
         this.name = name;
@@ -62,6 +90,14 @@ public class Task {
         return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
     }
 
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public  void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
     @Override
     public String toString() {
         return toString(type);
@@ -87,5 +123,12 @@ public class Task {
 
     public TaskType getType() {
         return type;
+    }
+
+    public LocalDateTime getEndTime(){
+        if (startTime == null) {
+            return null;
+        }
+        return duration == null ? startTime : startTime.plus(duration);
     }
 }
