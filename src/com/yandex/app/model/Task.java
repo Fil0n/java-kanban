@@ -2,6 +2,7 @@ package com.yandex.app.model;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Task {
     private String name;
@@ -10,6 +11,9 @@ public class Task {
     private Status status;
     private Duration duration;
     private LocalDateTime startTime;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+    private LocalDateTime endTime;
+
 
 
     private final TaskType type = TaskType.TASK;
@@ -87,7 +91,13 @@ public class Task {
     }
 
     public String toString(TaskType type) {
-        return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+        return String.format("%s,%d,%s,%s,%s,%s,%s", type,
+                id,
+                name != null ? name : "",
+                description != null ? description : "",
+                status != null ? status : "",
+                duration != null ? duration.toMinutes() : "",
+                startTime != null ? startTime.format(DATE_TIME_FORMATTER) : "");
     }
 
     public LocalDateTime getStartTime() {
@@ -105,13 +115,14 @@ public class Task {
 
     public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
-        final int parsingParamsCount = 5;
+        final int parsingParamsCount = 7;
 
         if (data.length != parsingParamsCount) {
             return null;
         }
 
-        final Task task = new Task(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]));
+        final Task task = new Task(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]), data[5].isBlank() ? null : Integer.parseInt(data[5]), data[6].isBlank() ? null : data[6]);
+
         return task;
     }
 
@@ -129,6 +140,7 @@ public class Task {
         if (startTime == null) {
             return null;
         }
-        return duration == null ? startTime : startTime.plus(duration);
+        endTime = duration == null ? startTime : startTime.plus(duration);
+        return endTime;
     }
 }
