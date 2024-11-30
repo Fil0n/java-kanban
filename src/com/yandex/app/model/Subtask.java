@@ -31,7 +31,7 @@ public class Subtask extends Task {
 
     public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
-        final int parsingParamsCount = 6;
+        final int parsingParamsCount = 8;
 
         if (data.length != parsingParamsCount) {
             return null;
