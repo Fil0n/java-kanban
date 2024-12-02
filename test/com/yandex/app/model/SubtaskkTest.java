@@ -31,7 +31,7 @@ public class SubtaskkTest {
         final Subtask savedSubtask3 = taskManager.getSubtaskById(subtask3Id);
 
         assertEquals(epic.getEndTime(), savedSubtask3.getEndTime(), "Не верная дата завершения Эпика");
-        assertEquals(epic.getStartTime(), savedSubtask3.getStartTime(), "Не верная дата начала Эпика");
+        assertEquals(epic.getStartTime(), savedSubtask.getStartTime(), "Не верная дата начала Эпика");
         assertEquals(3, epic.getSubtasksIds().size(), "Неверное количество задач.");
     }
 
