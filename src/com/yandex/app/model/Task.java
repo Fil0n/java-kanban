@@ -52,6 +52,14 @@ public class Task {
         this.startTime = startTime;
     }
 
+    public Task(int id, String name, String description, Status status, String startTime) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
+    }
+
     public Task(int id, String name, String description, Status status, Integer duration) {
         this.id = id;
         this.status = status;
@@ -73,6 +81,14 @@ public class Task {
         this.status = Status.NEW;
         this.duration = duration != null ? Duration.ofMinutes(duration) : null;
         this.startTime = startTime;
+    }
+
+    public Task(String name, String description, Integer duration, String startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
     }
 
     public int getId() {
