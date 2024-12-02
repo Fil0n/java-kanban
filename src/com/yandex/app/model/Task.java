@@ -11,7 +11,7 @@ public class Task {
     private Status status;
     private Duration duration;
     private LocalDateTime startTime;
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("HH:mm dd.MM.yy");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     private LocalDateTime endTime;
 
 
@@ -58,6 +58,21 @@ public class Task {
         this.name = name;
         this.description = description;
         this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+    }
+
+    public Task(String name, String description, Integer duration) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+    }
+
+    public Task(String name, String description, Integer duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.startTime = startTime;
     }
 
     public int getId() {
