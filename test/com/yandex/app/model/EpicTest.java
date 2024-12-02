@@ -12,7 +12,7 @@ public class EpicTest {
     public final TaskManager taskManager = new InMemoryTaskManager();
 
     @Test
-    void addNewEpicAndSubtask() {
+    void addNewEpic() {
         Epic epic = new Epic("Епик 1", "Описание 1");
         final int epicId = taskManager.addEpic(epic);
         final Epic savedEpic = taskManager.getEpicById(epicId);
@@ -29,4 +29,5 @@ public class EpicTest {
         final Integer subtask2Id = taskManager.addSubtask(subtask2);
         assertNull(subtask2Id, "Cабтаск может быть своим эпиком.");
     }
+
 }
