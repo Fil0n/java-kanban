@@ -40,7 +40,7 @@ public class Task {
         this.status = status;
         this.name = name;
         this.description = description;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
         this.startTime = startTime;
     }
 
@@ -65,21 +65,21 @@ public class Task {
         this.status = status;
         this.name = name;
         this.description = description;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
     }
 
     public Task(String name, String description, Integer duration) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
     }
 
     public Task(String name, String description, Integer duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
         this.startTime = startTime;
     }
 
@@ -87,7 +87,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : null;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
         this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
     }
 
