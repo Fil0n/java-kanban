@@ -6,6 +6,7 @@ import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 import com.yandex.app.utils.TestUtils;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
 import java.util.Optional;
 
