@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.Optional;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -34,16 +33,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Создание тасков
     @Override
-    public Optional<Integer> addTask(Task task) {
-        if (dateValidation(task.getStartTime(), task.getEndTime())) {
-            return Optional.empty();
+    public Integer addTask(Task task) {
+        if (!dateValidation(task.getStartTime(), task.getEndTime())) {
+            return null;
         }
 
         int id = getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
         prioritizedTasks.add(task);
-        return Optional.of(id);
+        return id;
     }
 
     @Override
@@ -56,18 +55,18 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Optional<Integer> addSubtask(Task subtaskTask) {
+    public Integer addSubtask(Task subtaskTask) {
         Subtask subtask = (Subtask) subtaskTask;
 
-        if (dateValidation(subtask.getStartTime(), subtask.getEndTime())) {
-            return Optional.empty();
+        if (!dateValidation(subtask.getStartTime(), subtask.getEndTime())) {
+            return null;
         }
 
         int mainTaskId = subtask.getEpicId();
 
         final Epic epic = epics.get(mainTaskId);
         if (epic == null) {
-            return Optional.empty();
+            return null;
         }
 
         int id = getNextId();
@@ -77,7 +76,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         updateEpic(mainTaskId); //Обновляем статус епику
         prioritizedTasks.add(subtaskTask);
-        return Optional.of(id);
+        return id;
     }
 
     //Получение списка всех задач.
@@ -158,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task newTask) {
         final int id = newTask.getId();
-        if (!tasks.containsKey(id) || dateValidation(newTask.getStartTime(), newTask.getEndTime())) {
+        if (!tasks.containsKey(id) || !dateValidation(newTask.getStartTime(), newTask.getEndTime())) {
             return;
         }
 
@@ -179,7 +178,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubtask(Subtask newSubtask) {
         final int id = newSubtask.getId();
-        if (!subtasks.containsKey(id) || dateValidation(newSubtask.getStartTime(), newSubtask.getEndTime())) {
+        if (!subtasks.containsKey(id) || !dateValidation(newSubtask.getStartTime(), newSubtask.getEndTime())) {
             return;
         }
         subtasks.replace(id, newSubtask);
@@ -295,6 +294,10 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public boolean dateValidation(LocalDateTime startDate, LocalDateTime endDate) {
+        if (startDate == null) {
+            return true;
+        }
+
         return (int) prioritizedTasks.stream()
                 .filter(task -> (task.getStartTime().isBefore(startDate) && task.getEndTime().isAfter(startDate)) || (startDate.isBefore(task.getStartTime()) && endDate.isAfter(task.getStartTime())))
                 .count() == 0;

@@ -9,7 +9,6 @@ import com.yandex.app.util.ManagerSaveException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
@@ -129,14 +128,14 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public Optional<Integer> addSubtask(Task subtask) {
+    public Integer addSubtask(Task subtask) {
         Integer id = super.addSubtask(subtask);
         save();
         return id;
     }
 
     @Override
-    public Optional<Integer> addTask(Task task) {
+    public Integer addTask(Task task) {
         Integer id = super.addTask(task);
         save();
         return id;

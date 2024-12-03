@@ -6,15 +6,14 @@ import com.yandex.app.model.Task;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface TaskManager {
     //Создание тасков
-    Optional<Integer> addTask(Task task);
+    Integer addTask(Task task);
 
     Integer addEpic(Task epic);
 
-    Optional<Integer> addSubtask(Task subtask);
+    Integer addSubtask(Task subtask);
 
     //Получение списка всех задач.
     List<Task> getTasks();
