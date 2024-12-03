@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -215,11 +216,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public List<Subtask> getEpicSubtasks(int id) {
         final Epic epic = epics.get(id);
-        List<Subtask> epicSubtasks = new ArrayList<>();
 
-        for (int subtaskId : epic.getSubtasksIds()) {
-            epicSubtasks.add(subtasks.get(subtaskId));
-        }
+        List<Subtask> epicSubtasks = epic.getSubtasksIds().stream()
+                .map(subtasks::get)
+                .collect(Collectors.toCollection(ArrayList::new));
 
         return epicSubtasks;
     }
