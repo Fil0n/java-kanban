@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -34,16 +34,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Создание тасков
     @Override
-    public Integer addTask(Task task) {
+    public Optional<Integer> addTask(Task task) {
         if (dateValidation(task.getStartTime(), task.getEndTime())) {
-            return 0;
+            return Optional.empty();
         }
 
         int id = getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
         prioritizedTasks.add(task);
-        return id;
+        return Optional.of(id);
     }
 
     @Override
@@ -56,13 +56,18 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public Integer addSubtask(Task subtaskTask) {
+    public Optional<Integer> addSubtask(Task subtaskTask) {
         Subtask subtask = (Subtask) subtaskTask;
+
+        if (dateValidation(subtask.getStartTime(), subtask.getEndTime())) {
+            return Optional.empty();
+        }
+
         int mainTaskId = subtask.getEpicId();
 
         final Epic epic = epics.get(mainTaskId);
         if (epic == null) {
-            return null;
+            return Optional.empty();
         }
 
         int id = getNextId();
@@ -72,7 +77,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         updateEpic(mainTaskId); //Обновляем статус епику
         prioritizedTasks.add(subtaskTask);
-        return id;
+        return Optional.of(id);
     }
 
     //Получение списка всех задач.
@@ -153,7 +158,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateTask(Task newTask) {
         final int id = newTask.getId();
-        if (!tasks.containsKey(id)) {
+        if (!tasks.containsKey(id) || dateValidation(newTask.getStartTime(), newTask.getEndTime())) {
             return;
         }
 
@@ -174,7 +179,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateSubtask(Subtask newSubtask) {
         final int id = newSubtask.getId();
-        if (!subtasks.containsKey(id)) {
+        if (!subtasks.containsKey(id) || dateValidation(newSubtask.getStartTime(), newSubtask.getEndTime())) {
             return;
         }
         subtasks.replace(id, newSubtask);
