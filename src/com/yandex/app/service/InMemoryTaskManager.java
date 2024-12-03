@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -34,6 +35,10 @@ public class InMemoryTaskManager implements TaskManager {
     //Создание тасков
     @Override
     public Integer addTask(Task task) {
+        if (dateValidation(task.getStartTime(), task.getEndTime())) {
+            return 0;
+        }
+
         int id = getNextId();
         task.setId(id);
         tasks.put(task.getId(), task);
@@ -284,7 +289,9 @@ public class InMemoryTaskManager implements TaskManager {
         this.prioritizedTasks.add(task);
     }
 
-//    public boolean dateValidation() {
-//
-//    }
+    public boolean dateValidation(LocalDateTime startDate, LocalDateTime endDate) {
+        return (int) prioritizedTasks.stream()
+                .filter(task -> (task.getStartTime().isBefore(startDate) && task.getEndTime().isAfter(startDate)) || (startDate.isBefore(task.getStartTime()) && endDate.isAfter(task.getStartTime())))
+                .count() == 0;
+    }
 }
