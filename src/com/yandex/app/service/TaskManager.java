@@ -4,6 +4,7 @@ import com.yandex.app.model.Epic;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface TaskManager {
@@ -53,4 +54,10 @@ public interface TaskManager {
     List<Subtask> getEpicSubtasks(int id);
 
     List<Task> getHistory();
+
+    List<Task> getPrioritizedTasks();
+
+    void setPrioritizedTasks(Task task);
+
+    boolean dateValidation(LocalDateTime startDate, LocalDateTime endDate);
 }

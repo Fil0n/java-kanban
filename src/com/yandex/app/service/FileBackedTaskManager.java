@@ -6,7 +6,12 @@ import com.yandex.app.model.Subtask;
 import com.yandex.app.model.TaskType;
 import com.yandex.app.util.ManagerSaveException;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -94,7 +99,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     default -> putSubTask(line);
                 }
             }
-        }  catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException("Ошибка в файле: " + file.getAbsolutePath(), e);
         }
     }
@@ -124,7 +129,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         epic.putSubtaskId(subtask.getId());
 
-        updateEpicStatus(epicId);
+        updateEpic(epicId);
     }
 
     @Override

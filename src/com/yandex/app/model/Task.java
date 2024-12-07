@@ -1,10 +1,19 @@
 package com.yandex.app.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class Task {
     private String name;
     private String description;
     private int id;
     private Status status;
+    private Duration duration;
+    private LocalDateTime startTime;
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private LocalDateTime endTime;
+
 
     private final TaskType type = TaskType.TASK;
 
@@ -24,6 +33,62 @@ public class Task {
         this.status = status;
         this.name = name;
         this.description = description;
+    }
+
+    public Task(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.startTime = startTime;
+    }
+
+    public Task(int id, String name, String description, Status status, LocalDateTime startTime) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.startTime = startTime;
+    }
+
+    public Task(int id, String name, String description, Status status, String startTime) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
+    }
+
+    public Task(int id, String name, String description, Status status, Integer duration) {
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+    }
+
+    public Task(String name, String description, Integer duration) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+    }
+
+    public Task(String name, String description, Integer duration, LocalDateTime startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.startTime = startTime;
+    }
+
+    public Task(String name, String description, Integer duration, String startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.NEW;
+        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
     }
 
     public int getId() {
@@ -59,7 +124,21 @@ public class Task {
     }
 
     public String toString(TaskType type) {
-        return String.format("%s,%d,%s,%s,%s", type, id, name != null ? name : "", description != null ? description : "", status != null ? status : "");
+        return String.format("%s,%d,%s,%s,%s,%s,%s", type,
+                id,
+                name != null ? name : " ",
+                description != null ? description : " ",
+                status != null ? status : " ",
+                duration != null ? duration.toMinutes() : " ",
+                startTime != null ? startTime.format(DATE_TIME_FORMATTER) : " ");
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
     }
 
     @Override
@@ -69,13 +148,20 @@ public class Task {
 
     public static Task fromString(String taskString) {
         String[] data = taskString.split(",");
-        final int parsingParamsCount = 5;
+        final int parsingParamsCount = 7;
 
         if (data.length != parsingParamsCount) {
             return null;
         }
 
-        final Task task = new Task(Integer.parseInt(data[1]), data[2], data[3], Status.valueOf(data[4]));
+
+        final Task task = new Task(Integer.parseInt(data[1]),
+                data[2],
+                data[3],
+                Status.valueOf(data[4]),
+                data[5].isBlank() ? null : Integer.parseInt(data[5]),
+                data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
+
         return task;
     }
 
@@ -87,5 +173,13 @@ public class Task {
 
     public TaskType getType() {
         return type;
+    }
+
+    public LocalDateTime getEndTime() {
+        if (startTime == null) {
+            return null;
+        }
+        endTime = duration == null ? startTime : startTime.plus(duration);
+        return endTime;
     }
 }

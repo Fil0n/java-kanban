@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class FileBackedTaskManagerTest {
 
     @BeforeEach
-    void clearTasks(){
+    void clearTasks() {
         taskManager.removeTasks();
         taskManager.removeEpics();
     }
@@ -24,14 +24,14 @@ public class FileBackedTaskManagerTest {
     @Test
     void addTasks() {
         Task task1 = new Task("Таск 1", "Описание 1");
-        int task1Id = taskManager.addTask(task1);
+        Integer task1Id = taskManager.addTask(task1);
 
         Task task2 = new Task("Таск 2", "Описание 2");
-        int task2Id = taskManager.addTask(task2);
+        Integer task2Id = taskManager.addTask(task2);
 
         Task task3 = new Task("Таск 3", "Описание 3");
         task3.setStatus(Status.IN_PROGRESS);
-        int task3Id = taskManager.addTask(task3);
+        Integer task3Id = taskManager.addTask(task3);
 
         taskManager.tasks.clear();
         taskManager.loadFromFile();
@@ -46,14 +46,14 @@ public class FileBackedTaskManagerTest {
     @Test
     void removeTask() {
         Task task1 = new Task("Таск 1", "Описание 1");
-        int task1Id = taskManager.addTask(task1);
+        Integer task1Id = taskManager.addTask(task1);
 
         Task task2 = new Task("Таск 2", "Описание 2");
-        int task2Id = taskManager.addTask(task2);
+        Integer task2Id = taskManager.addTask(task2);
 
         Task task3 = new Task("Таск 3", "Описание 3");
         task3.setStatus(Status.IN_PROGRESS);
-        int task3Id = taskManager.addTask(task3);
+        Integer task3Id = taskManager.addTask(task3);
 
         taskManager.removeTaskById(task3Id);
 
@@ -69,13 +69,13 @@ public class FileBackedTaskManagerTest {
     @Test
     void addEpic() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        int epic1Id = taskManager.addEpic(epic1);
+        Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Subtask 1", "Описание 1", epic1Id);
-        int subtaskId = taskManager.addSubtask(subtask1);
+        Integer subtaskId = taskManager.addSubtask(subtask1);
 
         Subtask subtask2 = new Subtask("Subtask 2", "Описание 1", epic1Id);
-        int subtask2Id = taskManager.addSubtask(subtask2);
+        Integer subtask2Id = taskManager.addSubtask(subtask2);
 
         taskManager.epics.clear();
         taskManager.subtasks.clear();
@@ -91,13 +91,13 @@ public class FileBackedTaskManagerTest {
     @Test
     void removeSubtask() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        int epic1Id = taskManager.addEpic(epic1);
+        Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Subtask 1", "Описание 1", epic1Id);
-        int subtaskId = taskManager.addSubtask(subtask1);
+        Integer subtaskId = taskManager.addSubtask(subtask1);
 
         Subtask subtask2 = new Subtask("Subtask 2", "Описание 1", epic1Id);
-        int subtask2Id = taskManager.addSubtask(subtask2);
+        Integer subtask2Id = taskManager.addSubtask(subtask2);
 
         taskManager.removeSubtaskById(subtask2Id);
 
@@ -114,13 +114,13 @@ public class FileBackedTaskManagerTest {
     @Test
     void removeEpic() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        int epic1Id = taskManager.addEpic(epic1);
+        Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Subtask 1", "Описание 1", epic1Id);
-        int subtaskId = taskManager.addSubtask(subtask1);
+        Integer subtaskId = taskManager.addSubtask(subtask1);
 
         Subtask subtask2 = new Subtask("Subtask 2", "Описание 1", epic1Id);
-        int subtask2Id = taskManager.addSubtask(subtask2);
+        Integer subtask2Id = taskManager.addSubtask(subtask2);
 
         taskManager.removeEpicById(epic1Id);
 

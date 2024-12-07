@@ -22,7 +22,7 @@ public class HistoryManagerTest {
         Subtask subtask2 = new Subtask("Сабтаск 2", "Описание 2", epicId);
         final Integer subtask2Id = taskManager.addSubtask(subtask2);
         Task task = new Task("Таск 1", "Описание 1");
-        final int taskId = taskManager.addTask(task);
+        final Integer taskId = taskManager.addTask(task);
 
         for (int i = 0; i < 10; i++) {
             taskManager.getTaskById(taskId);
@@ -42,13 +42,13 @@ public class HistoryManagerTest {
     @Test
     void removeTaskFromHistory() {
         Task task1 = new Task("Таск 1", "Описание 1");
-        final int taskId1 = taskManager.addTask(task1);
+        final Integer taskId1 = taskManager.addTask(task1);
 
         Task task2 = new Task("Таск 2", "Описание 2");
-        final int taskId2 = taskManager.addTask(task2);
+        final Integer taskId2 = taskManager.addTask(task2);
 
         Task task3 = new Task("Таск 3", "Описание 3");
-        final int taskId3 = taskManager.addTask(task3);
+        final Integer taskId3 = taskManager.addTask(task3);
 
         taskManager.getTaskById(taskId1);
         taskManager.getTaskById(taskId2);
@@ -64,7 +64,7 @@ public class HistoryManagerTest {
     @Test
     void removeEpicFromHistory() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        final int epic1Id = taskManager.addEpic(epic1);
+        final Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
         final Integer subtask1Id = taskManager.addSubtask(subtask1);
@@ -74,10 +74,10 @@ public class HistoryManagerTest {
         final Integer subtask3Id = taskManager.addSubtask(subtask3);
 
         Epic epic2 = new Epic("Epic 2", "Описание 2");
-        final int epic2Id = taskManager.addEpic(epic2);
+        final Integer epic2Id = taskManager.addEpic(epic2);
 
         Epic epic3 = new Epic("Epic 3", "Описание 3");
-        final int epic3Id = taskManager.addEpic(epic3);
+        final Integer epic3Id = taskManager.addEpic(epic3);
 
         taskManager.getEpicById(epic1Id);
         taskManager.getEpicById(epic2Id);
@@ -101,7 +101,7 @@ public class HistoryManagerTest {
     @Test
     void removeSubtaskFromHistiry() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        final int epic1Id = taskManager.addEpic(epic1);
+        final Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
         final Integer subtask1Id = taskManager.addSubtask(subtask1);
@@ -130,7 +130,7 @@ public class HistoryManagerTest {
     @Test
     void updateSubtaskFromHistiry() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        final int epic1Id = taskManager.addEpic(epic1);
+        final Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
         final Integer subtask1Id = taskManager.addSubtask(subtask1);
@@ -147,13 +147,13 @@ public class HistoryManagerTest {
     @Test
     void removeTasksFromHistory() {
         Task task1 = new Task("Таск 1", "Описание 1");
-        final int taskId1 = taskManager.addTask(task1);
+        final Integer taskId1 = taskManager.addTask(task1);
 
         Task task2 = new Task("Таск 2", "Описание 2");
-        final int taskId2 = taskManager.addTask(task2);
+        final Integer taskId2 = taskManager.addTask(task2);
 
         Task task3 = new Task("Таск 3", "Описание 3");
-        final int taskId3 = taskManager.addTask(task3);
+        final Integer taskId3 = taskManager.addTask(task3);
 
         taskManager.getTaskById(taskId1);
         taskManager.getTaskById(taskId2);
@@ -168,7 +168,7 @@ public class HistoryManagerTest {
     @Test
     void removeSubtasksFromHistiry() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        final int epic1Id = taskManager.addEpic(epic1);
+        final Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
         final Integer subtask1Id = taskManager.addSubtask(subtask1);
@@ -194,7 +194,7 @@ public class HistoryManagerTest {
     @Test
     void removeEpicsFromHistory() {
         Epic epic1 = new Epic("Epic 1", "Описание 1");
-        final int epic1Id = taskManager.addEpic(epic1);
+        final Integer epic1Id = taskManager.addEpic(epic1);
 
         Subtask subtask1 = new Subtask("Сабтаск 1", "Описание 1", epic1Id);
         final Integer subtask1Id = taskManager.addSubtask(subtask1);
@@ -204,10 +204,10 @@ public class HistoryManagerTest {
         final Integer subtask3Id = taskManager.addSubtask(subtask3);
 
         Epic epic2 = new Epic("Epic 2", "Описание 2");
-        final int epic2Id = taskManager.addEpic(epic2);
+        final Integer epic2Id = taskManager.addEpic(epic2);
 
         Epic epic3 = new Epic("Epic 3", "Описание 3");
-        final int epic3Id = taskManager.addEpic(epic3);
+        final Integer epic3Id = taskManager.addEpic(epic3);
 
         taskManager.getEpicById(epic1Id);
         taskManager.getEpicById(epic2Id);
