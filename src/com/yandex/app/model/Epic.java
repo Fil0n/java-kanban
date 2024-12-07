@@ -9,16 +9,8 @@ public class Epic extends Task {
     private final TaskType type = TaskType.EPIC;
     private LocalDateTime endTime;
 
-    public Epic(int id, String name, String description, Status status) {
-        super(id, name, description, status);
-    }
-
     public Epic(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
         super(id, name, description, status, duration, startTime);
-    }
-
-    public Epic(String name) {
-        super(name);
     }
 
     public Epic(String name, String description) {
