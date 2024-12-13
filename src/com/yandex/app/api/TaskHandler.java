@@ -4,14 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.yandex.app.model.Epic;
+import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 import com.yandex.app.service.TaskManager;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 public class TaskHandler implements HttpHandler {
     private final TaskManager manager;
@@ -60,11 +60,11 @@ public class TaskHandler implements HttpHandler {
                         return;
                     }
                 }
-                break;
             }
             case "DELETE": {
                 if(id == null) {
                     BaseHandler.sendNotFound(exchange);
+                    return;
                 }
 
                 switch (type) {
@@ -88,29 +88,74 @@ public class TaskHandler implements HttpHandler {
                         return;
                     }
                 }
-                break;
             }
             case "POST": {
-                if(pathParts.length == 2) {
-                    String body;
-                    try (BufferedReader reader = new BufferedReader(new InputStreamReader(exchange.getRequestBody()))) {
-                        body = reader.lines().collect(Collectors.joining());
+                switch (type) {
+                    case "tasks": {
+                        try {
+                            String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+                            Task task = gson.fromJson(request, Task.class);
+                            if (task.getId() == 0) {
+                                if (manager.addTask(task) != null) {
+                                    BaseHandler.sendCreated(exchange);
+                                } else {
+                                    BaseHandler.sendNonAcceptable(exchange);
+                                }
+                            } else {
+                                manager.updateTask(task);
+                                BaseHandler.sendCreated(exchange);
+                            }
+                        } catch (IOException e) {
+                            System.out.printf("Что-то пошло не так\n\t%s%n", e.getMessage());
+                        }
+                        return;
                     }
-                    gson = new GsonBuilder().create();
-                    Task task = gson.fromJson(body, Task.class);
-                    manager.addTask(task);
-                } else if (pathParts.length == 3) {
-                    manager.getTaskById(Integer.parseInt(pathParts[2]));
-                } else {
-                    //Ошибка!!! 404
+                    case "epics": {
+                        try {
+                            String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+                            Epic epic = gson.fromJson(request, Epic.class);
+                            if (epic.getId() == 0) {
+                                if (manager.addEpic(epic) != null) {
+                                    BaseHandler.sendCreated(exchange);
+                                } else {
+                                    BaseHandler.sendNonAcceptable(exchange);
+                                }
+                            } else {
+                                manager.updateEpic(epic);
+                                BaseHandler.sendCreated(exchange);
+                            }
+                        } catch (IOException e) {
+                            System.out.printf("Что-то пошло не так\n\t%s%n", e.getMessage());
+                        }
+                        return;
+                    }
+                    case "subtasks": {
+                        try {
+                            String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+                            Subtask subtask = gson.fromJson(request, Subtask.class);
+                            if (subtask.getId() == 0) {
+                                if (manager.addSubtask(subtask) != null) {
+                                    BaseHandler.sendCreated(exchange);
+                                } else {
+                                    BaseHandler.sendNonAcceptable(exchange);
+                                }
+                            } else {
+                                manager.updateSubtask(subtask);
+                                BaseHandler.sendCreated(exchange);
+                            }
+                        } catch (IOException e) {
+                            System.out.printf("Что-то пошло не так\n\t%s%n", e.getMessage());
+                        }
+                        return;
+                    }
+                    default: {
+                        BaseHandler.sendNotFound(exchange);
+                        return;
+                    }
                 }
-
-                break;
             }
-
             default: {
-                //Ошибка!!! 404
-                break;
+                BaseHandler.sendNotFound(exchange);
             }
         }
     }

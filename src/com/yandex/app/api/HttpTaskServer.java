@@ -16,7 +16,7 @@ import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 
 public class HttpTaskServer {
-    private static final int PORT = 8080;
+    private static final int PORT = 9080;
     private static HttpServer httpServer = null;
 
     public static void main(String[] args){
