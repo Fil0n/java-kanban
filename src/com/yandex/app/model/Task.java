@@ -9,7 +9,7 @@ public class Task {
     private String description;
     private int id;
     private Status status;
-    private Duration duration;
+    private Integer duration;
     private LocalDateTime startTime;
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     private LocalDateTime endTime;
@@ -40,7 +40,7 @@ public class Task {
         this.status = status;
         this.name = name;
         this.description = description;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.duration = duration;
         this.startTime = startTime;
     }
 
@@ -65,21 +65,21 @@ public class Task {
         this.status = status;
         this.name = name;
         this.description = description;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.duration = duration;
     }
 
     public Task(String name, String description, Integer duration) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.duration = duration;
     }
 
     public Task(String name, String description, Integer duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.duration = duration;
         this.startTime = startTime;
     }
 
@@ -87,7 +87,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = Status.NEW;
-        this.duration = duration != null ? Duration.ofMinutes(duration) : Duration.ofMinutes(0);
+        this.duration = duration;
         this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
     }
 
@@ -129,7 +129,7 @@ public class Task {
                 name != null ? name : " ",
                 description != null ? description : " ",
                 status != null ? status : " ",
-                duration != null ? duration.toMinutes() : " ",
+                duration != null ? duration : " ",
                 startTime != null ? startTime.format(DATE_TIME_FORMATTER) : " ");
     }
 
@@ -160,7 +160,7 @@ public class Task {
                 data[3],
                 Status.valueOf(data[4]),
                 data[5].isBlank() ? null : Integer.parseInt(data[5]),
-                data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
+                data[6].isBlank() ? null : LocalDateTime.parse(data[6], DATE_TIME_FORMATTER));
 
         return task;
     }
@@ -179,7 +179,7 @@ public class Task {
         if (startTime == null) {
             return null;
         }
-        endTime = duration == null ? startTime : startTime.plus(duration);
+        endTime = duration == null ? startTime : startTime.plus(Duration.ofMinutes(duration == null ? 0 : duration));
         return endTime;
     }
 }

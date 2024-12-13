@@ -15,7 +15,7 @@ import java.io.BufferedReader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class FileBackedTaskManager extends InMemoryTaskManager {
+public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
     final File dafaultFile = new File("tasks.csv");
 
