@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+
 import com.yandex.app.service.Managers;
 import com.yandex.app.service.TaskManager;
 
@@ -12,7 +13,7 @@ public class HttpTaskServer {
     private static HttpServer httpServer = null;
     private static final TaskManager manager = Managers.getDefault();
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         start();
     }
 
@@ -30,11 +31,11 @@ public class HttpTaskServer {
         System.out.println("HTTP-сервер запущен на " + PORT + " порту!");
     }
 
-    public static void stop(){
+    public static void stop() {
         httpServer.stop(0);
     }
 
-    public TaskManager getManager(){
+    public TaskManager getManager() {
         return manager;
     }
 }
