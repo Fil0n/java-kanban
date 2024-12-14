@@ -1,7 +1,6 @@
 package com.yandex.app.model;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 public class Subtask extends Task {
     private final int epicId;
