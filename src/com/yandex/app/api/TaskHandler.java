@@ -5,13 +5,16 @@ import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.yandex.app.model.Epic;
+import com.yandex.app.model.Status;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 import com.yandex.app.service.TaskManager;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.function.Function;
 
 public class TaskHandler extends BaseHandler implements HttpHandler {
     private final TaskManager manager;
@@ -26,7 +29,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, Adapters.localDateTimeAdapter)
-                .serializeNulls()
+                .registerTypeAdapter(Status.class, Adapters.statusAdapter)
                 .create();
 
         int pathLenght = pathParts.length;
@@ -98,17 +101,21 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                             String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                             Task task = gson.fromJson(request, Task.class);
                             if (task.getId() == 0) {
-                                if (manager.addTask(task) != null) {
+                                if (manager.addTask(task) != null && id == null) {
                                     BaseHandler.sendCreated(exchange);
                                 } else {
                                     BaseHandler.sendNonAcceptable(exchange);
                                 }
                             } else {
-                                manager.updateTask(task);
-                                BaseHandler.sendCreated(exchange);
+                                if(manager.getTaskById(id) == null) {
+                                    BaseHandler.sendBadRequest(exchange);
+                                } else {
+                                    manager.updateTask(task);
+                                    BaseHandler.sendCreated(exchange);
+                                }
                             }
                         } catch (IOException e) {
-                            System.out.printf("Что-то пошло не так\n\t%s%n", e.getMessage());
+                            BaseHandler.sendServerError(exchange);
                         }
                         return;
                     }
@@ -116,18 +123,24 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                         try {
                             String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                             Epic epic = gson.fromJson(request, Epic.class);
-                            if (epic.getId() == 0) {
+                            if (epic.getId() == 0 && id == null) {
                                 if (manager.addEpic(epic) != null) {
                                     BaseHandler.sendCreated(exchange);
                                 } else {
                                     BaseHandler.sendNonAcceptable(exchange);
                                 }
                             } else {
+                                if(manager.getEpicById(id) == null) {
+                                    BaseHandler.sendBadRequest(exchange);
+                                } else {
+                                    manager.updateTask(epic);
+                                    BaseHandler.sendCreated(exchange);
+                                }
                                 manager.updateEpic(epic);
                                 BaseHandler.sendCreated(exchange);
                             }
                         } catch (IOException e) {
-                            System.out.printf("Что-то пошло не так\n\t%s%n", e.getMessage());
+                            BaseHandler.sendServerError(exchange);
                         }
                         return;
                     }
@@ -135,18 +148,23 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                         try {
                             String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                             Subtask subtask = gson.fromJson(request, Subtask.class);
-                            if (subtask.getId() == 0) {
+                            if (subtask.getId() == 0 && id == null) {
                                 if (manager.addSubtask(subtask) != null) {
                                     BaseHandler.sendCreated(exchange);
                                 } else {
                                     BaseHandler.sendNonAcceptable(exchange);
                                 }
                             } else {
-                                manager.updateSubtask(subtask);
-                                BaseHandler.sendCreated(exchange);
+                                if(manager.getSubtaskById(id) == null) {
+                                    BaseHandler.sendBadRequest(exchange);
+                                } else {
+                                    manager.updateSubtask(subtask);
+                                    BaseHandler.sendCreated(exchange);
+                                }
+
                             }
                         } catch (IOException e) {
-                            System.out.printf("Что-то пошло не так\n\t%s%n", e.getMessage());
+                            BaseHandler.sendServerError(exchange);
                         }
                         return;
                     }

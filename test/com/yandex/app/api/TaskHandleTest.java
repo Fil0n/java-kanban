@@ -3,6 +3,7 @@ package com.yandex.app.api;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.yandex.app.model.Epic;
+import com.yandex.app.model.Status;
 import com.yandex.app.model.Subtask;
 import com.yandex.app.model.Task;
 import com.yandex.app.service.TaskManager;
@@ -28,7 +29,7 @@ public class TaskHandleTest {
         server = new HttpTaskServer();
         gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, Adapters.localDateTimeAdapter)
-                .serializeNulls()
+                .registerTypeAdapter(Status.class, Adapters.statusAdapter)
                 .create();
         server.start();
 
@@ -205,6 +206,68 @@ public class TaskHandleTest {
         assertEquals("{\"message\":\"Deleted\"}", response.body());
         assertNull(manager.getEpicById(epicId));
         assertNull(manager.getSubtaskById(subtaskId2));
+    }
+
+    @Test
+    void postCreate(){
+        Task task = new Task("Таск 1", "Описание 1", "NEW", 30, "01.01.2025 03:00");
+        Epic epic = new Epic("Епик 1", "Описание 1");
+
+        final Integer epicId  = manager.addEpic(new Epic("Епик 2", "Описание 2"));
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId);
+
+        HttpResponse<String> response = TestUtils.post(client, "/tasks", gson.toJson(task));
+        assertEquals(201, response.statusCode());
+
+        response = TestUtils.post(client, "/epics", gson.toJson(epic));
+        assertEquals(201, response.statusCode());
+
+        response = TestUtils.post(client, "/subtasks", gson.toJson(subtask));
+        assertEquals(201, response.statusCode());
+    }
+
+    @Test
+    void postUpdate(){
+        final Integer taskIdForUpdate = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
+
+        final Integer epicIdForUpdate  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+
+        final Integer subtaskIdForUpdate = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate));
+
+        Task task = new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00");
+        Epic epic = new Epic("Епик 1", "Описание 1");
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate);
+
+        HttpResponse<String> response = TestUtils.post(client, "/tasks/" + taskIdForUpdate, gson.toJson(task));
+        assertEquals(201, response.statusCode());
+
+        response = TestUtils.post(client, "/epics/" + epicIdForUpdate, gson.toJson(epic));
+        assertEquals(201, response.statusCode());
+
+        response = TestUtils.post(client, "/subtasks/" + subtaskIdForUpdate, gson.toJson(subtask));
+        assertEquals(201, response.statusCode());
+    }
+
+    @Test
+    void postUpdateWithWrongId(){
+        final Integer taskIdForUpdate = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
+
+        final Integer epicIdForUpdate  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+
+        final Integer subtaskIdForUpdate = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate));
+
+        Task task = new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00");
+        Epic epic = new Epic("Епик 1", "Описание 1");
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate);
+
+        HttpResponse<String> response = TestUtils.post(client, "/epics/" + taskIdForUpdate, gson.toJson(epic));
+        assertEquals(400, response.statusCode());
+
+        response = TestUtils.post(client, "/tasks/" + epicIdForUpdate, gson.toJson(task));
+        assertEquals(400, response.statusCode());
+
+        response = TestUtils.post(client, "/subtasks/" + subtaskIdForUpdate, gson.toJson(subtask));
+        assertEquals(400, response.statusCode());
     }
 }
 

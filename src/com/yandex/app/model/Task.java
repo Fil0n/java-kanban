@@ -110,6 +110,15 @@ public class Task {
         setEndTime();
     }
 
+    public Task(String name, String description, String status, Integer duration, String startTime) {
+        this.name = name;
+        this.description = description;
+        this.status = Status.valueOf(status);
+        this.duration = duration;
+        this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
+        setEndTime();
+    }
+
     public int getId() {
         return id;
     }
