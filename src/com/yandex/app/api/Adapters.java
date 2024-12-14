@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 
 public class Adapters {
     public static LocalDateTimeAdapter localDateTimeAdapter = new LocalDateTimeAdapter();
-    public static statusAdapter statusAdapter = new statusAdapter();
 }
 
 class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
@@ -34,19 +33,5 @@ class LocalDateTimeAdapter extends TypeAdapter<LocalDateTime> {
         } else {
             return LocalDateTime.parse(jsonReader.nextString(), timeFormatter);
         }
-    }
-}
-
-class statusAdapter extends TypeAdapter<Status> {
-
-    @Override
-    public void write(JsonWriter jsonWriter, Status status) throws IOException {
-        jsonWriter.value(status.name());
-    }
-
-    @Override
-    public Status read(JsonReader jsonReader) throws IOException {
-        Status s = Status.valueOf(jsonReader.nextString().toString());
-        return s;
     }
 }
