@@ -12,6 +12,11 @@ import java.time.format.DateTimeFormatter;
 
 public class BaseHandler {
     public static void sendText(HttpExchange exchange, String text) throws IOException {
+        if(text.equals("null")) {
+            sendNotFound(exchange);
+            return;
+        }
+
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
         exchange.sendResponseHeaders(200, resp.length);
@@ -20,7 +25,7 @@ public class BaseHandler {
     }
 
     public static void sendNotFound(HttpExchange exchange) throws IOException {
-        byte[] resp = ("{\"status\":404,\"message\":\"Not Found\"}").getBytes(StandardCharsets.UTF_8);
+        byte[] resp = ("{\"message\":\"Not Found\"}").getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
         exchange.sendResponseHeaders(404, resp.length);
         exchange.getResponseBody().write(resp);

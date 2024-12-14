@@ -1,5 +1,8 @@
 package com.yandex.app.utils;
 
+import com.yandex.app.model.Task;
+import com.yandex.app.service.TaskManager;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;

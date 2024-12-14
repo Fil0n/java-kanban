@@ -14,12 +14,11 @@ import org.junit.jupiter.api.Test;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-public class TskHandleTest {
+public class TaskHandleTest {
     HttpTaskServer server;
     Gson gson;
     TaskManager manager;
@@ -149,6 +148,35 @@ public class TskHandleTest {
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getTaskById(taskId)), response.body());
+    }
+
+    @Test
+    void getWithWrongIDs(){
+        final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
+
+        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+
+        HttpResponse<String> response = TestUtils.get(client, "/tasks/" + taskId + 1);
+        assertNotEquals(response, null);
+        assertEquals(404, response.statusCode());
+        assertEquals("{\"message\":\"Not Found\"}", response.body());
+
+        response = TestUtils.get(client, "/epics/" + taskId + 1);
+        assertNotEquals(response, null);
+        assertEquals(404, response.statusCode());
+        assertEquals("{\"message\":\"Not Found\"}", response.body());
+
+        response = TestUtils.get(client, "/epics/" + taskId + 1 + "/subtasks");
+        assertNotEquals(response, null);
+        assertEquals(404, response.statusCode());
+        assertEquals("{\"message\":\"Not Found\"}", response.body());
+
+        response = TestUtils.get(client, "/subtasks" + subtaskId + 1);
+        assertNotEquals(response, null);
+        assertEquals(404, response.statusCode());
+        assertEquals("{\"message\":\"Not Found\"}", response.body());
     }
 
 
