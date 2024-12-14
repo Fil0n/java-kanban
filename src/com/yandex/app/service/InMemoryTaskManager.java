@@ -258,7 +258,7 @@ public class InMemoryTaskManager implements TaskManager {
 
             if (subtaskEndDate != null) {
                 if (epicEndDate == null || subtaskEndDate.isAfter(epicEndDate)) {
-                    epic.setEndTime(subtaskEndDate);
+                    epic.setEndTimeFromSubtask(subtaskEndDate);
                 }
 
                 if (epicStartDate == null || subtaskStartDate.isBefore(epicStartDate)) {

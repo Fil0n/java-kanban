@@ -32,6 +32,12 @@ public class Task {
         this.description = description;
     }
 
+    public Task(int id, String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+    }
+
     public Task(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
         this.id = id;
         this.status = status;
@@ -39,7 +45,7 @@ public class Task {
         this.description = description;
         this.duration = duration;
         this.startTime = startTime;
-        getEndTime();
+        setEndTime();
     }
 
     public Task(int id, String name, String description, Status status, Integer duration, String startTime) {
@@ -50,7 +56,7 @@ public class Task {
         this.description = description;
         this.duration = duration;
         this.startTime = (startTime == null) ? null : LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
-        getEndTime();
+        setEndTime();
     }
 
     public Task(int id, String name, String description, Status status, LocalDateTime startTime) {
@@ -59,7 +65,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.startTime = startTime;
-        getEndTime();
+        setEndTime();
     }
 
     public Task(int id, String name, String description, Status status, String startTime) {
@@ -68,7 +74,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
-        getEndTime();
+        setEndTime();
     }
 
     public Task(int id, String name, String description, Status status, Integer duration) {
@@ -92,7 +98,7 @@ public class Task {
         this.status = Status.NEW;
         this.duration = duration;
         this.startTime = startTime;
-        getEndTime();
+        setEndTime();
     }
 
     public Task(String name, String description, Integer duration, String startTime) {
@@ -101,7 +107,7 @@ public class Task {
         this.status = Status.NEW;
         this.duration = duration;
         this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
-        getEndTime();
+        setEndTime();
     }
 
     public int getId() {
@@ -192,7 +198,19 @@ public class Task {
         if (startTime == null) {
             return null;
         }
-        endTime = duration == null ? startTime : startTime.plus(Duration.ofMinutes(duration == null ? 0 : duration));
+        setEndTime();
         return endTime;
+    }
+
+    public LocalDateTime getCurrentEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime() {
+        endTime = duration == null ? startTime : startTime.plus(Duration.ofMinutes(duration == null ? 0 : duration));
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 }

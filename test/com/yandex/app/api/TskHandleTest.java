@@ -64,10 +64,10 @@ public class TskHandleTest {
         manager.addSubtask(new Subtask("Сабтаск 2", "Описание 2", 30, "01.01.2025 04:00", epicId));
         manager.addSubtask(new Subtask("Сабтаск 3", "Описание 3", 30, "01.01.2025 05:00", epicId));
 
-//        response = TestUtils.get(client, "/epics");
-//        assertNotEquals(response, null);
-//        assertEquals(200, response.statusCode());
-//        assertEquals(gson.toJson(manager.getEpics()), response.body());
+        response = TestUtils.get(client, "/epics");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getEpics()), response.body());
 
         response = TestUtils.get(client, "/subtasks");
         assertNotEquals(response, null);
