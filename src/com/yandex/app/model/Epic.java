@@ -9,7 +9,7 @@ public class Epic extends Task {
     private final TaskType type = TaskType.EPIC;
     private LocalDateTime endTime;
 
-    public Epic(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime) {
+    public Epic(int id, String name, String description, Status status, Integer duration, String startTime) {
         super(id, name, description, status, duration, startTime);
     }
 
@@ -51,7 +51,7 @@ public class Epic extends Task {
                 data[3],
                 Status.valueOf(data[4]),
                 data[5].isBlank() ? null : Integer.parseInt(data[5]),
-                data[6].isBlank() ? null : LocalDateTime.parse(data[6]));
+                data[6].isBlank() ? null : data[6]);
     }
 
     @Override

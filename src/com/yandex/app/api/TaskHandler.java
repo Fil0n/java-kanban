@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 
-public class TaskHandler implements HttpHandler {
+public class TaskHandler extends BaseHandler implements HttpHandler {
     private final TaskManager manager;
 
     TaskHandler(TaskManager manager) {
@@ -25,7 +25,8 @@ public class TaskHandler implements HttpHandler {
         String[] pathParts = exchange.getRequestURI().getPath().split("/");
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, new HttpTaskServer.LocalDateTimeAdapter())
+                .registerTypeAdapter(LocalDateTime.class, Adapters.localDateTimeAdapter)
+                .serializeNulls()
                 .create();
 
         String type = pathParts.length >= 2 ? pathParts[1] : null;

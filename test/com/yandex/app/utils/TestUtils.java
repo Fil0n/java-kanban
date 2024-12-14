@@ -1,5 +1,10 @@
 package com.yandex.app.utils;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -12,5 +17,45 @@ public class TestUtils {
         assertNotNull(tasks, "Задачи не возвращаются.");
         assertEquals(1, tasks.size(), "Неверное количество задач.");
         assertEquals(task, tasks.get(0), "Задачи не совпадают.");
+    }
+
+    public static HttpResponse<String> get(HttpClient client, String path) {
+        try{
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080" + path))
+                    .GET()
+                    .build();
+            return client.send(req, HttpResponse.BodyHandlers.ofString());
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+
+    public static HttpResponse<String> post(HttpClient client, String path, String body) {
+        try{
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080" + path))
+                    .POST(HttpRequest.BodyPublishers.ofString(body))
+                    .build();
+            return client.send(req, HttpResponse.BodyHandlers.ofString());
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public static HttpResponse<String> delete(HttpClient client, String path) {
+        try{
+            HttpRequest req = HttpRequest.newBuilder()
+                    .uri(URI.create("http://localhost:8080" + path))
+                    .DELETE()
+                    .build();
+            return client.send(req, HttpResponse.BodyHandlers.ofString());
+        }catch (IOException | InterruptedException e){
+            System.out.println(e.getMessage());
+            return null;
+        }
     }
 }

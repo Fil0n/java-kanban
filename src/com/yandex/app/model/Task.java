@@ -42,6 +42,18 @@ public class Task {
         this.description = description;
         this.duration = duration;
         this.startTime = startTime;
+        getEndTime();
+    }
+
+    public Task(int id, String name, String description, Status status, Integer duration, String startTime) {
+        System.out.println(startTime);
+        this.id = id;
+        this.status = status;
+        this.name = name;
+        this.description = description;
+        this.duration = duration;
+        this.startTime = (startTime == null) ? null : LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
+        getEndTime();
     }
 
     public Task(int id, String name, String description, Status status, LocalDateTime startTime) {
@@ -50,6 +62,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.startTime = startTime;
+        getEndTime();
     }
 
     public Task(int id, String name, String description, Status status, String startTime) {
@@ -58,6 +71,7 @@ public class Task {
         this.name = name;
         this.description = description;
         this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
+        getEndTime();
     }
 
     public Task(int id, String name, String description, Status status, Integer duration) {
@@ -81,6 +95,7 @@ public class Task {
         this.status = Status.NEW;
         this.duration = duration;
         this.startTime = startTime;
+        getEndTime();
     }
 
     public Task(String name, String description, Integer duration, String startTime) {
@@ -89,6 +104,7 @@ public class Task {
         this.status = Status.NEW;
         this.duration = duration;
         this.startTime = LocalDateTime.parse(startTime, DATE_TIME_FORMATTER);
+        getEndTime();
     }
 
     public int getId() {
