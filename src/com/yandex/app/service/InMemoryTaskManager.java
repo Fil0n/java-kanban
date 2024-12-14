@@ -299,6 +299,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         return (int) prioritizedTasks.stream()
+                .filter(task -> startDate != null && task.getStartTime() != null)
                 .filter(task -> (task.getStartTime().isBefore(startDate) && task.getEndTime().isAfter(startDate)) || (startDate.isBefore(task.getStartTime()) && endDate.isAfter(task.getStartTime())))
                 .count() == 0;
     }

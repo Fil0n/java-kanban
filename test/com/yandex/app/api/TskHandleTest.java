@@ -46,8 +46,7 @@ public class TskHandleTest {
 
     @Test
     void GET(){
-
-        manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
+        final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
         manager.addTask(new Task("Таск 2", "Описание 2", 30, "01.01.2025 01:00"));
         manager.addTask(new Task("Таск 3", "Описание 3", 30, "01.01.2025 02:00"));
 
@@ -58,9 +57,7 @@ public class TskHandleTest {
 
         final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        LocalDateTime l = LocalDateTime.parse("01.01.2025 03:00", DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm"));
-
-        manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
         manager.addSubtask(new Subtask("Сабтаск 2", "Описание 2", 30, "01.01.2025 04:00", epicId));
         manager.addSubtask(new Subtask("Сабтаск 3", "Описание 3", 30, "01.01.2025 05:00", epicId));
 
@@ -73,7 +70,88 @@ public class TskHandleTest {
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getSubtasks()), response.body());
+
+        response = TestUtils.get(client, "/epics/" + epicId + "/subtasks");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getEpicSubtasks(epicId)), response.body());
+
+        response = TestUtils.get(client, "/subtasks/"+subtaskId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getSubtaskById(subtaskId)), response.body());
+
+        response = TestUtils.get(client, "/epics/"+epicId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getEpicById(epicId)), response.body());
+
+        response = TestUtils.get(client, "/tasks/"+taskId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getTaskById(taskId)), response.body());
+
+        response = TestUtils.get(client, "/history");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getHistory()), response.body());
+
+        response = TestUtils.get(client, "/prioritized");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getPrioritizedTasks()), response.body());
     }
+
+
+    @Test
+    void getWithoutTimeAndDuration(){
+        final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1" ));
+        manager.addTask(new Task("Таск 2", "Описание 2"));
+        manager.addTask(new Task("Таск 3", "Описание 3"));
+
+        HttpResponse<String> response = TestUtils.get(client, "/tasks");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getTasks()), response.body());
+
+        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1",  epicId));
+        manager.addSubtask(new Subtask("Сабтаск 2", "Описание 2",  epicId));
+        manager.addSubtask(new Subtask("Сабтаск 3", "Описание 3",  epicId));
+
+        response = TestUtils.get(client, "/epics");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getEpics()), response.body());
+
+        response = TestUtils.get(client, "/subtasks");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getSubtasks()), response.body());
+
+        response = TestUtils.get(client, "/epics/" + epicId + "/subtasks");
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getEpicSubtasks(epicId)), response.body());
+
+        response = TestUtils.get(client, "/subtasks/"+subtaskId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getSubtaskById(subtaskId)), response.body());
+
+        response = TestUtils.get(client, "/epics/"+epicId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getEpicById(epicId)), response.body());
+
+        response = TestUtils.get(client, "/tasks/"+taskId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals(gson.toJson(manager.getTaskById(taskId)), response.body());
+    }
+
+
 }
 
 

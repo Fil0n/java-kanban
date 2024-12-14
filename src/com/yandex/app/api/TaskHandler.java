@@ -31,7 +31,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
 
         String type = pathParts.length >= 2 ? pathParts[1] : null;
         Integer id = pathParts.length >= 3 ? Integer.parseInt(pathParts[2]) : null;
-        Boolean getEpicSubtasks = type == "epics" && pathParts.length == 4 && pathParts[3].equals("subtasks");
+        Boolean getEpicSubtasks = type.equals("epics") && pathParts.length == 4 && pathParts[3].equals("subtasks");
 
         switch (exchange.getRequestMethod()) {
             case "GET": {
