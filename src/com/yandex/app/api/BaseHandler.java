@@ -42,7 +42,7 @@ public class BaseHandler {
         sendResponse(exchange, 406, "{\"message\":\"Not Acceptable\"}");
     }
 
-    private static void sendResponse(HttpExchange exchange, int status, String text) throws IOException{
+    private static void sendResponse(HttpExchange exchange, int status, String text) throws IOException {
         byte[] resp = text.getBytes(StandardCharsets.UTF_8);
         exchange.getResponseHeaders().add("Content-Type", "application/json;charset=utf-8");
         exchange.sendResponseHeaders(status, resp.length);
