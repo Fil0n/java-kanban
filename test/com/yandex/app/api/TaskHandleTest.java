@@ -15,8 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TaskHandleTest {
     HttpTaskServer server;
@@ -44,7 +43,7 @@ public class TaskHandleTest {
     }
 
     @Test
-    void GET(){
+    void get(){
         final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
         manager.addTask(new Task("Таск 2", "Описание 2", 30, "01.01.2025 01:00"));
         manager.addTask(new Task("Таск 3", "Описание 3", 30, "01.01.2025 02:00"));
@@ -158,28 +157,55 @@ public class TaskHandleTest {
 
         final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
 
-        HttpResponse<String> response = TestUtils.get(client, "/tasks/" + taskId + 1);
+        HttpResponse<String> response = TestUtils.get(client, "/tasks/" + epicId);
         assertNotEquals(response, null);
         assertEquals(404, response.statusCode());
         assertEquals("{\"message\":\"Not Found\"}", response.body());
 
-        response = TestUtils.get(client, "/epics/" + taskId + 1);
+        response = TestUtils.get(client, "/epics/" + taskId);
         assertNotEquals(response, null);
         assertEquals(404, response.statusCode());
         assertEquals("{\"message\":\"Not Found\"}", response.body());
 
-        response = TestUtils.get(client, "/epics/" + taskId + 1 + "/subtasks");
+        response = TestUtils.get(client, "/epics/" + subtaskId + "/subtasks");
         assertNotEquals(response, null);
         assertEquals(404, response.statusCode());
         assertEquals("{\"message\":\"Not Found\"}", response.body());
 
-        response = TestUtils.get(client, "/subtasks" + subtaskId + 1);
+        response = TestUtils.get(client, "/subtasks" + taskId);
         assertNotEquals(response, null);
         assertEquals(404, response.statusCode());
         assertEquals("{\"message\":\"Not Found\"}", response.body());
     }
 
+    @Test
+    void delete() {
+        final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
 
+        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+        final Integer subtaskId2 = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+
+        HttpResponse<String> response = TestUtils.delete(client, "/tasks/" + taskId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals("{\"message\":\"Deleted\"}", response.body());
+        assertNull(manager.getTaskById(taskId));
+
+        response = TestUtils.delete(client, "/subtasks/" + subtaskId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals("{\"message\":\"Deleted\"}", response.body());
+        assertNull(manager.getSubtaskById(subtaskId));
+
+        response = TestUtils.delete(client, "/epics/" + epicId);
+        assertNotEquals(response, null);
+        assertEquals(200, response.statusCode());
+        assertEquals("{\"message\":\"Deleted\"}", response.body());
+        assertNull(manager.getEpicById(epicId));
+        assertNull(manager.getSubtaskById(subtaskId2));
+    }
 }
 
 
