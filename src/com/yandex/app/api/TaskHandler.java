@@ -67,7 +67,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                 }
             }
             case "DELETE": {
-                if(id == null) {
+                if (id == null) {
                     BaseHandler.sendNotFound(exchange);
                     return;
                 }
@@ -97,7 +97,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
             case "POST": {
                 String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
 
-                if(request.isBlank() || request.isEmpty()) {
+                if (request.isBlank() || request.isEmpty()) {
                     BaseHandler.sendBadRequest(exchange);
                     return;
                 }
@@ -113,7 +113,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                                     BaseHandler.sendNonAcceptable(exchange);
                                 }
                             } else {
-                                if(manager.getTaskById(id) == null) {
+                                if (manager.getTaskById(id) == null) {
                                     BaseHandler.sendBadRequest(exchange);
                                 } else {
                                     manager.updateTask(task);
@@ -135,7 +135,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                                     BaseHandler.sendNonAcceptable(exchange);
                                 }
                             } else {
-                                if(manager.getEpicById(id) == null) {
+                                if (manager.getEpicById(id) == null) {
                                     BaseHandler.sendBadRequest(exchange);
                                 } else {
                                     manager.updateTask(epic);
@@ -157,7 +157,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                                     BaseHandler.sendNonAcceptable(exchange);
                                 }
                             } else {
-                                if(manager.getSubtaskById(id) == null) {
+                                if (manager.getSubtaskById(id) == null) {
                                     BaseHandler.sendBadRequest(exchange);
                                 } else {
                                     manager.updateSubtask(subtask);

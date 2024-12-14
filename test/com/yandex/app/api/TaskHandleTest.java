@@ -39,14 +39,14 @@ public class TaskHandleTest {
     }
 
     @AfterEach
-    void stopServer(){
+    void stopServer() {
         server.stop();
         manager.removeTasks();
         manager.removeEpics();
     }
 
     @Test
-    void get(){
+    void get() {
         final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
         manager.addTask(new Task("Таск 2", "Описание 2", 30, "01.01.2025 01:00"));
         manager.addTask(new Task("Таск 3", "Описание 3", 30, "01.01.2025 02:00"));
@@ -56,9 +56,9 @@ public class TaskHandleTest {
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getTasks()), response.body());
 
-        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+        final Integer epicId = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicId));
         manager.addSubtask(new Subtask("Сабтаск 2", "Описание 2", 30, "01.01.2025 04:00", epicId));
         manager.addSubtask(new Subtask("Сабтаск 3", "Описание 3", 30, "01.01.2025 05:00", epicId));
 
@@ -77,17 +77,17 @@ public class TaskHandleTest {
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getEpicSubtasks(epicId)), response.body());
 
-        response = TestUtils.get(client, "/subtasks/"+subtaskId);
+        response = TestUtils.get(client, "/subtasks/" + subtaskId);
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getSubtaskById(subtaskId)), response.body());
 
-        response = TestUtils.get(client, "/epics/"+epicId);
+        response = TestUtils.get(client, "/epics/" + epicId);
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getEpicById(epicId)), response.body());
 
-        response = TestUtils.get(client, "/tasks/"+taskId);
+        response = TestUtils.get(client, "/tasks/" + taskId);
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getTaskById(taskId)), response.body());
@@ -105,8 +105,8 @@ public class TaskHandleTest {
 
 
     @Test
-    void getWithoutTimeAndDuration(){
-        final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1" ));
+    void getWithoutTimeAndDuration() {
+        final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1"));
         manager.addTask(new Task("Таск 2", "Описание 2"));
         manager.addTask(new Task("Таск 3", "Описание 3"));
 
@@ -115,11 +115,11 @@ public class TaskHandleTest {
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getTasks()), response.body());
 
-        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+        final Integer epicId = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1",  epicId));
-        manager.addSubtask(new Subtask("Сабтаск 2", "Описание 2",  epicId));
-        manager.addSubtask(new Subtask("Сабтаск 3", "Описание 3",  epicId));
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", epicId));
+        manager.addSubtask(new Subtask("Сабтаск 2", "Описание 2", epicId));
+        manager.addSubtask(new Subtask("Сабтаск 3", "Описание 3", epicId));
 
         response = TestUtils.get(client, "/epics");
         assertNotEquals(response, null);
@@ -136,29 +136,29 @@ public class TaskHandleTest {
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getEpicSubtasks(epicId)), response.body());
 
-        response = TestUtils.get(client, "/subtasks/"+subtaskId);
+        response = TestUtils.get(client, "/subtasks/" + subtaskId);
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getSubtaskById(subtaskId)), response.body());
 
-        response = TestUtils.get(client, "/epics/"+epicId);
+        response = TestUtils.get(client, "/epics/" + epicId);
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getEpicById(epicId)), response.body());
 
-        response = TestUtils.get(client, "/tasks/"+taskId);
+        response = TestUtils.get(client, "/tasks/" + taskId);
         assertNotEquals(response, null);
         assertEquals(200, response.statusCode());
         assertEquals(gson.toJson(manager.getTaskById(taskId)), response.body());
     }
 
     @Test
-    void getWithWrongIDs(){
+    void getWithWrongIDs() {
         final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
 
-        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+        final Integer epicId = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicId));
 
         HttpResponse<String> response = TestUtils.get(client, "/tasks/" + epicId);
         assertNotEquals(response, null);
@@ -185,10 +185,10 @@ public class TaskHandleTest {
     void delete() {
         final Integer taskId = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
 
-        final Integer epicId  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+        final Integer epicId = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
-        final Integer subtaskId2 = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId));
+        final Integer subtaskId = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicId));
+        final Integer subtaskId2 = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicId));
 
         HttpResponse<String> response = TestUtils.delete(client, "/tasks/" + taskId);
         assertNotEquals(response, null);
@@ -211,12 +211,12 @@ public class TaskHandleTest {
     }
 
     @Test
-    void postCreate(){
+    void postCreate() {
         Task task = new Task("Таск 1", "Описание 1", "NEW", 30, "01.01.2025 03:00");
         Epic epic = new Epic("Епик 1", "Описание 1");
 
-        final Integer epicId  = manager.addEpic(new Epic("Епик 2", "Описание 2"));
-        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicId);
+        final Integer epicId = manager.addEpic(new Epic("Епик 2", "Описание 2"));
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicId);
 
         HttpResponse<String> response = TestUtils.post(client, "/tasks", gson.toJson(task));
         assertEquals(201, response.statusCode());
@@ -229,16 +229,16 @@ public class TaskHandleTest {
     }
 
     @Test
-    void postUpdate(){
+    void postUpdate() {
         final Integer taskIdForUpdate = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
 
-        final Integer epicIdForUpdate  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+        final Integer epicIdForUpdate = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        final Integer subtaskIdForUpdate = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate));
+        final Integer subtaskIdForUpdate = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicIdForUpdate));
 
         Task task = new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00");
         Epic epic = new Epic("Епик 1", "Описание 1");
-        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate);
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicIdForUpdate);
 
         HttpResponse<String> response = TestUtils.post(client, "/tasks/" + taskIdForUpdate, gson.toJson(task));
         assertEquals(201, response.statusCode());
@@ -251,16 +251,16 @@ public class TaskHandleTest {
     }
 
     @Test
-    void postUpdateWithWrongId(){
+    void postUpdateWithWrongId() {
         final Integer taskIdForUpdate = manager.addTask(new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00"));
 
-        final Integer epicIdForUpdate  = manager.addEpic(new Epic("Епик 1", "Описание 1"));
+        final Integer epicIdForUpdate = manager.addEpic(new Epic("Епик 1", "Описание 1"));
 
-        final Integer subtaskIdForUpdate = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate));
+        final Integer subtaskIdForUpdate = manager.addSubtask(new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicIdForUpdate));
 
         Task task = new Task("Таск 1", "Описание 1", 30, "01.01.2025 00:00");
         Epic epic = new Epic("Епик 1", "Описание 1");
-        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00",  epicIdForUpdate);
+        Subtask subtask = new Subtask("Сабтаск 1", "Описание 1", 30, "01.01.2025 03:00", epicIdForUpdate);
 
         HttpResponse<String> response = TestUtils.post(client, "/epics/" + taskIdForUpdate, gson.toJson(epic));
         assertEquals(400, response.statusCode());

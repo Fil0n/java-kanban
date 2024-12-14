@@ -23,13 +23,13 @@ public class TestUtils {
     }
 
     public static HttpResponse<String> get(HttpClient client, String path) {
-        try{
+        try {
             HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:"+ port + path))
+                    .uri(URI.create("http://localhost:" + port + path))
                     .GET()
                     .build();
             return client.send(req, HttpResponse.BodyHandlers.ofString());
-        }catch (IOException | InterruptedException e){
+        } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
             return null;
         }
@@ -37,26 +37,26 @@ public class TestUtils {
     }
 
     public static HttpResponse<String> post(HttpClient client, String path, String body) {
-        try{
+        try {
             HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:"+ port + path))
+                    .uri(URI.create("http://localhost:" + port + path))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .build();
             return client.send(req, HttpResponse.BodyHandlers.ofString());
-        }catch (IOException | InterruptedException e){
+        } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
 
     public static HttpResponse<String> delete(HttpClient client, String path) {
-        try{
+        try {
             HttpRequest req = HttpRequest.newBuilder()
-                    .uri(URI.create("http://localhost:"+ port + path))
+                    .uri(URI.create("http://localhost:" + port + path))
                     .DELETE()
                     .build();
             return client.send(req, HttpResponse.BodyHandlers.ofString());
-        }catch (IOException | InterruptedException e){
+        } catch (IOException | InterruptedException e) {
             System.out.println(e.getMessage());
             return null;
         }

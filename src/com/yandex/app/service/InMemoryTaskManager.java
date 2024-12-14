@@ -137,7 +137,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
 
-        if(task == null) {
+        if (task == null) {
             return null;
         }
 
@@ -149,7 +149,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
 
-        if(epic == null) {
+        if (epic == null) {
             return null;
         }
 
@@ -161,7 +161,7 @@ public class InMemoryTaskManager implements TaskManager {
     public Subtask getSubtaskById(int id) {
         Subtask subtask = subtasks.get(id);
 
-        if(subtask == null) {
+        if (subtask == null) {
             return null;
         }
 
@@ -232,7 +232,7 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Subtask> getEpicSubtasks(int id) {
         final Epic epic = epics.get(id);
 
-        if(epic == null) {
+        if (epic == null) {
             return null;
         }
 
