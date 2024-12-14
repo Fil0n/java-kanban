@@ -26,7 +26,7 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
         String[] pathParts = exchange.getRequestURI().getPath().split("/");
 
         Gson gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, Adapters.localDateTimeAdapter)
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
 
         int pathLenght = pathParts.length;

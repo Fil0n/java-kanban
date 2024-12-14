@@ -28,7 +28,7 @@ public class TaskHandleTest {
     void startServer() {
         server = new HttpTaskServer();
         gson = new GsonBuilder()
-                .registerTypeAdapter(LocalDateTime.class, Adapters.localDateTimeAdapter)
+                .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
                 .create();
         server.start();
 
