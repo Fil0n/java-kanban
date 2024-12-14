@@ -14,9 +14,6 @@ public class Task {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     private LocalDateTime endTime;
 
-
-    private final TaskType type = TaskType.TASK;
-
     public Task(String name) {
         this.name = name;
         this.status = Status.NEW;
@@ -159,7 +156,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return toString(type);
+        return toString(TaskType.TASK);
     }
 
     public static Task fromString(String taskString) {
@@ -188,7 +185,7 @@ public class Task {
     }
 
     public TaskType getType() {
-        return type;
+        return TaskType.TASK;
     }
 
     public LocalDateTime getEndTime() {

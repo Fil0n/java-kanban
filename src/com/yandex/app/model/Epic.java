@@ -6,7 +6,6 @@ import java.util.List;
 
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
-    private final TaskType type = TaskType.EPIC;
     private LocalDateTime endTime;
 
     public Epic(int id, String name, String description, Status status, Integer duration, String startTime) {
@@ -35,7 +34,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return super.toString(type);
+        return super.toString(TaskType.EPIC);
     }
 
     public static Task fromString(String taskString) {

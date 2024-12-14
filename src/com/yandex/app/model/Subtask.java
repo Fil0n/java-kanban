@@ -1,24 +1,39 @@
 package com.yandex.app.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Subtask extends Task {
     private final int epicId;
-    private final TaskType type = TaskType.SUBTASK;
 
     public Subtask(String name, String description, int epicId) {
         super(name, description);
         this.epicId = epicId;
+        getEndTime();
     }
 
     public Subtask(String name, String description, Integer duration, String startTime, int epicId) {
         super(name, description, duration, startTime);
         this.epicId = epicId;
+        getEndTime();
     }
 
     public Subtask(int id, String name, String description, Status status, Integer duration, String startTime, int epicId) {
         super(id, name, description, status, duration, startTime);
         this.epicId = epicId;
+        getEndTime();
+    }
+
+    public Subtask(String name, String description, Integer duration, LocalDateTime startTime, int epicId) {
+        super(name, description, duration, startTime);
+        this.epicId = epicId;
+        getEndTime();
+    }
+
+    public Subtask(int id, String name, String description, Status status, Integer duration, LocalDateTime startTime, int epicId) {
+        super(id, name, description, status, duration, startTime);
+        this.epicId = epicId;
+        getEndTime();
     }
 
     public int getEpicId() {
@@ -27,7 +42,7 @@ public class Subtask extends Task {
 
     @Override
     public String toString() {
-        String s = super.toString(type);
+        String s = super.toString(TaskType.SUBTASK);
         return String.format("%s,%d", s, epicId);
     }
 
