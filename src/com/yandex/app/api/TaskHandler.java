@@ -95,13 +95,19 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                 }
             }
             case "POST": {
+                String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
+
+                if(request.isBlank() || request.isEmpty()) {
+                    BaseHandler.sendBadRequest(exchange);
+                    return;
+                }
+
                 switch (type) {
                     case "tasks": {
                         try {
-                            String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                             Task task = gson.fromJson(request, Task.class);
-                            if (task.getId() == 0) {
-                                if (manager.addTask(task) != null && id == null) {
+                            if (task.getId() == 0 && id == null) {
+                                if (manager.addTask(task) != null) {
                                     BaseHandler.sendCreated(exchange);
                                 } else {
                                     BaseHandler.sendNonAcceptable(exchange);
@@ -121,7 +127,6 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                     }
                     case "epics": {
                         try {
-                            String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                             Epic epic = gson.fromJson(request, Epic.class);
                             if (epic.getId() == 0 && id == null) {
                                 if (manager.addEpic(epic) != null) {
@@ -136,8 +141,6 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                                     manager.updateTask(epic);
                                     BaseHandler.sendCreated(exchange);
                                 }
-                                manager.updateEpic(epic);
-                                BaseHandler.sendCreated(exchange);
                             }
                         } catch (IOException e) {
                             BaseHandler.sendServerError(exchange);
@@ -146,7 +149,6 @@ public class TaskHandler extends BaseHandler implements HttpHandler {
                     }
                     case "subtasks": {
                         try {
-                            String request = new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
                             Subtask subtask = gson.fromJson(request, Subtask.class);
                             if (subtask.getId() == 0 && id == null) {
                                 if (manager.addSubtask(subtask) != null) {

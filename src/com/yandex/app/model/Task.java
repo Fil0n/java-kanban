@@ -49,7 +49,6 @@ public class Task {
     }
 
     public Task(int id, String name, String description, Status status, Integer duration, String startTime) {
-        System.out.println(startTime);
         this.id = id;
         this.status = status;
         this.name = name;

@@ -41,6 +41,8 @@ public class TaskHandleTest {
     @AfterEach
     void stopServer(){
         server.stop();
+        manager.removeTasks();
+        manager.removeEpics();
     }
 
     @Test
@@ -266,7 +268,7 @@ public class TaskHandleTest {
         response = TestUtils.post(client, "/tasks/" + epicIdForUpdate, gson.toJson(task));
         assertEquals(400, response.statusCode());
 
-        response = TestUtils.post(client, "/subtasks/" + subtaskIdForUpdate, gson.toJson(subtask));
+        response = TestUtils.post(client, "/subtasks/" + taskIdForUpdate, gson.toJson(subtask));
         assertEquals(400, response.statusCode());
     }
 }
