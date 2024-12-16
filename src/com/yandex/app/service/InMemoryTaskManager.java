@@ -136,6 +136,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         Task task = tasks.get(id);
+
+        if (task == null) {
+            return null;
+        }
+
         historyManager.add(task);
         return task;
     }
@@ -143,6 +148,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpicById(int id) {
         Epic epic = epics.get(id);
+
+        if (epic == null) {
+            return null;
+        }
+
         historyManager.add(epic);
         return epic;
     }
@@ -150,6 +160,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Subtask getSubtaskById(int id) {
         Subtask subtask = subtasks.get(id);
+
+        if (subtask == null) {
+            return null;
+        }
+
         historyManager.add(subtask);
         return subtask;
     }
@@ -217,6 +232,10 @@ public class InMemoryTaskManager implements TaskManager {
     public List<Subtask> getEpicSubtasks(int id) {
         final Epic epic = epics.get(id);
 
+        if (epic == null) {
+            return null;
+        }
+
         List<Subtask> epicSubtasks = epic.getSubtasksIds().stream()
                 .map(subtasks::get)
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -258,7 +277,7 @@ public class InMemoryTaskManager implements TaskManager {
 
             if (subtaskEndDate != null) {
                 if (epicEndDate == null || subtaskEndDate.isAfter(epicEndDate)) {
-                    epic.setEndTime(subtaskEndDate);
+                    epic.setEndTimeFromSubtask(subtaskEndDate);
                 }
 
                 if (epicStartDate == null || subtaskStartDate.isBefore(epicStartDate)) {
@@ -299,6 +318,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
         return (int) prioritizedTasks.stream()
+                .filter(task -> startDate != null && task.getStartTime() != null)
                 .filter(task -> (task.getStartTime().isBefore(startDate) && task.getEndTime().isAfter(startDate)) || (startDate.isBefore(task.getStartTime()) && endDate.isAfter(task.getStartTime())))
                 .count() == 0;
     }
